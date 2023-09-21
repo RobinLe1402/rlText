@@ -136,6 +136,7 @@
     <ClInclude Include="include\rlTextDLL\ExportSpecs.h" />
     <ClInclude Include="include\rlTextDLL\Types.h" />
     <ClInclude Include="include\rlTextDLL\Unicode.h" />
+    <ClInclude Include="src\include\CP1252.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Encode.cpp" />

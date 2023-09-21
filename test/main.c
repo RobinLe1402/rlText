@@ -18,6 +18,7 @@ void PrintHex_32(rlText_UTF32Char c) { PrintHex(c, 8); }
 
 int test(rlText_UTF32Char ch, const char *szCharDescr)
 {
+	rlText_ByteChar       c;
 	rlText_UTF8Codepoint  u8;
 	rlText_UTF16Codepoint u16;
 	int iResult = 1;
@@ -27,6 +28,25 @@ int test(rlText_UTF32Char ch, const char *szCharDescr)
 
 
 	printf("Testing U+%s (%s)...\n", szUnicodeHex, szCharDescr);
+
+	printf("  CP1252: ");
+	if (!rlText_EncodeCP1252(ch, &c))
+	{
+		if (ch <= 0xFF && (ch < 0x80 || ch >= 0xA0))
+		{
+			iResult = 0;
+			printf("failed.\n");
+		}
+		else
+			printf("<outside supported range>\n");
+	}
+	else
+	{
+		//     "(X chars) "
+		printf("          ");
+		PrintHex_8(c);
+		printf("\n");
+	}
 
 	printf("  UTF-8:  ");
 	if (!rlText_EncodeUTF8(ch, &u8))
@@ -69,9 +89,13 @@ int test(rlText_UTF32Char ch, const char *szCharDescr)
 
 int main(int argc, char* argv[])
 {
-	test(U'\U000000F6', "o-Umlaut");
-	test(U'\U00002764', "Heart");
-	test(U'\U0001F642', "Emoji \"Slightly Smiling Face\"");
+	if (!test(U'\U000000F6', "o-Umlaut") ||
+		!test(U'\U00002122', "TM sign") ||
+		!test(U'\U00002764', "Heart") ||
+		!test(U'\U0001F642', "Emoji \"Slightly Smiling Face\""))
+		printf("\nFAIL.\n");
+	else
+		printf("\nSUCCESS.\n");
 
 	return 0;
 }

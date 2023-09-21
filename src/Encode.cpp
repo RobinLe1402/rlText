@@ -1,6 +1,9 @@
 #include "rlTextDLL/Encode.h"
 
 #include "rlTextDLL/Unicode.h"
+#include "include/CP1252.hpp"
+
+
 
 RLTEXT_API rlText_Bool EXPORT rlText_EncodeASCII(
 	rlText_UTF32Char ch,
@@ -15,6 +18,36 @@ RLTEXT_API rlText_Bool EXPORT rlText_EncodeASCII(
 		bResult = true;
 	}
 	
+	if (!bResult)
+		*pDest = '?';
+	return bResult;
+}
+
+RLTEXT_API rlText_Bool EXPORT rlText_EncodeCP1252(
+	rlText_UTF32Char ch,
+	rlText_ByteChar *pDest
+)
+{
+	bool bResult = false;
+
+	if (ch < 0x80 || (ch >= 0xA0 && ch < 0xFF))
+	{
+		bResult = true;
+		*pDest  = rlText_ByteChar(ch);
+	}
+	else if (ch > 0xFF)
+	{
+		for (int i = 0; i < 0x20; ++i)
+		{
+			if (ch == oCharsCP1252[i])
+			{
+				bResult = true;
+				*pDest  = rlText_ByteChar(0x80 + i);
+				break;
+			}
+		}
+	}
+
 	if (!bResult)
 		*pDest = '?';
 	return bResult;

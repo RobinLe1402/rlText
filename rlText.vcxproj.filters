@@ -27,6 +27,9 @@
     <ClInclude Include="include\rlTextDLL\Unicode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\CP1252.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Encode.cpp">
