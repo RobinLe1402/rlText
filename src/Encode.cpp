@@ -3,6 +3,8 @@
 #include "rlTextDLL/Unicode.h"
 #include "include/CP1252.hpp"
 
+#include <memory.h>
+
 
 
 RLTEXT_API rlText_Bool EXPORT rlText_EncodeASCII(
@@ -58,6 +60,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_EncodeUTF8(
 	rlText_UTF8Codepoint *pDest)
 {
 	bool bResult = true;
+	memset(pDest, 0, sizeof(*pDest));
 
 
 	if (rlText_IsNoncharacter(ch) || ch < 0)
@@ -110,6 +113,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_EncodeUTF16(
 )
 {
 	bool bResult = true;
+	memset(pDest, 0, sizeof(*pDest));
 
 
 	if (rlText_IsNoncharacter(ch) || ch < 0)
