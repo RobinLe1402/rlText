@@ -176,6 +176,9 @@ RLTEXT_API rlText_File EXPORT rlText_FileCreate(
 /// <li><c>RLTEXT_FILEENCODING_UTF32BE</c></li>
 /// </ul>
 /// </param>
+/// <param name="bTrailingLinebreak">
+/// If this value is nonzero, a final linebreak will be written to the end of the file.
+/// </param>
 /// <returns>
 /// If the function succeeds, it returns nonzero.<para />
 /// Otherwise, it returns zero.
@@ -183,7 +186,8 @@ RLTEXT_API rlText_File EXPORT rlText_FileCreate(
 RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
 	rlText_File     oFile,
 	const char     *szFilepath,
-	rlText_Encoding iEncoding
+	rlText_Encoding iEncoding,
+	rlText_Bool     bTrailingLinebreak
 );
 
 /// <summary>Free text data.</summary>
@@ -227,7 +231,10 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
 /// <summary>Insert into or replace a line from text data.</summary>
 /// <param name="oFile">The handle of the text data.</param>
 /// <param name="iLine">The zero-based index of the line.</param>
-/// <param name="szLine">The [UTF-8 encoded] string to insert.</param>
+/// <param name="szLine">
+/// The [UTF-8 encoded] string to insert.<para/>
+/// If linebreaks are detected in this string, the string will be split up into multiple lines.
+/// </param>
 /// <param name="bReplace">
 /// If this value is nonzero, <c>iLine</c> must be a valid index, and the line at this index will be
 /// replaced by <c>szLine</c>.<para />
@@ -236,14 +243,27 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
 /// last line.
 /// </param>
 /// <returns>
-/// If the function succeeds, it returns nonzero.<para />
-/// Otherwise, it returns zero.
+/// If the function succeeds, it returns the nonzero count of lines inserted (strings will be
+/// automatically split into multiple lines if they include linebreaks).<para />
+/// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_FileSetLine(
+RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
 	rlText_File  oFile,
 	rlText_Count iLine,
 	const char  *szLine,
 	rlText_Bool  bReplace
+);
+
+/// <summary>Delete a single line from text data.</summary>
+/// <param name="oFile">The handle of the text data.</param>
+/// <param name="iLine">The zero-based index of the line to delete.</param>
+/// <returns>
+/// If the function succeeds, it returns nonzero.<para/>
+/// Otherwise, it returns zero.
+/// </returns>
+RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
+	rlText_File  oFile,
+	rlText_Count iLine
 );
 
 /// <summary>
@@ -260,9 +280,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetLine(
 /// <li><c>RLTEXT_LINEBREAK_MACINTOSH</c> (\r)</li>
 /// </ul>
 /// </returns>
-RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(
-	rlText_File oFile
-);
+RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(rlText_File oFile);
 
 /// <summary>
 /// Set the type of linebreak that will be used when saving the text data to a file.
@@ -324,6 +342,16 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
 RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
 	rlText_File oFile,
 	const char *sz
+);
+
+/// <summary>Delete all lines from text data.</summary>
+/// <param name="oFile">The handle of the text data.</param>
+/// <returns>
+/// If the function succeeds, it returns nonzero.<para/>
+/// Otherwise, it returns zero.
+/// </returns>
+RLTEXT_API rlText_Bool EXPORT rlText_FileClear(
+	rlText_File oFile
 );
 
 

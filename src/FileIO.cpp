@@ -514,7 +514,8 @@ RLTEXT_API rlText_File EXPORT rlText_FileCreate(
 RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
 	rlText_File     oFile,
 	const char     *szFilepath,
-	rlText_Encoding iEncoding
+	rlText_Encoding iEncoding,
+	rlText_Bool     bTrailingLinebreak
 )
 {
 	return false; // todo
@@ -540,7 +541,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
 	return 0; // todo
 }
 
-RLTEXT_API rlText_Bool EXPORT rlText_FileSetLine(
+RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
 	rlText_File  oFile,
 	rlText_Count iLine,
 	const char  *szLine,
@@ -550,9 +551,15 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetLine(
 	return false; // todo
 }
 
-RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(
-	rlText_File oFile
+RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
+	rlText_File  oFile,
+	rlText_Count iLine
 )
+{
+	return false; // todo
+}
+
+RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(rlText_File oFile)
 {
 	return 0; // todo
 }
@@ -577,6 +584,13 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
 RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
 	rlText_File oFile,
 	const char *sz
+)
+{
+	return false; // todo
+}
+
+RLTEXT_API rlText_Bool EXPORT rlText_FileClear(
+	rlText_File oFile
 )
 {
 	return false; // todo
