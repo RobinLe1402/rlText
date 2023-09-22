@@ -6,11 +6,12 @@
 
 
 
-typedef int             rlText_Bool;
-typedef unsigned        rlText_Unsigned;
-typedef unsigned char   rlText_ByteChar;
-typedef unsigned short  rlText_UTF16Char;
-typedef unsigned        rlText_UTF32Char;
+typedef int                rlText_Bool;
+typedef unsigned           rlText_Unsigned;
+typedef unsigned char      rlText_ByteChar;
+typedef unsigned short     rlText_UTF16Char;
+typedef unsigned           rlText_UTF32Char;
+typedef unsigned long long rlText_Count;
 
 
 typedef struct

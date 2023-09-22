@@ -142,6 +142,7 @@
     <ClInclude Include="include\rlTextDLL\FileIO.h" />
     <ClInclude Include="include\rlTextDLL\Types.h" />
     <ClInclude Include="include\rlTextDLL\Unicode.h" />
+    <ClInclude Include="include\rlTextDLL\Windows.hpp" />
     <ClInclude Include="src\include\CP1252.hpp" />
     <ClInclude Include="src\include\HostEndian.hpp" />
   </ItemGroup>
@@ -150,6 +151,7 @@
     <ClCompile Include="src\Encode.cpp" />
     <ClCompile Include="src\FileIO.cpp" />
     <ClCompile Include="src\Unicode.cpp" />
+    <ClCompile Include="src\Windows.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

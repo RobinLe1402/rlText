@@ -3,6 +3,7 @@
 #include "rlTextDLL/Decode.h"
 #include "rlTextDLL/Encode.h"
 #include "rlTextDLL/Unicode.h"
+#include "rlTextDLL/Windows.hpp"
 #include "include/HostEndian.hpp"
 
 #include <fstream>
@@ -105,20 +106,30 @@ rlText_UTF32Char ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool 
 }
 
 RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
-	const wchar_t               *szFilepath,
-	uint8_t                     *pEncoding,
+	const char                  *szFilepath,
+	rlText_Encoding             *pEncoding,
 	rlText_FileStatisticsStruct *pStatistics,
-	uint8_t                      iFlags
+	rlText_Flags1                iFlags
 )
 {
 	if (pStatistics)
 		memset(pStatistics, 0, sizeof(*pStatistics));
 
+#ifdef _WIN32
+	// convert filename from UTF-8 to UTF-16
+	const auto iReqSize = rlText_UTF8toUTF16((const rlText_ByteChar *)szFilepath, 0, 0);
+	auto up_szUTF16 = std::make_unique<rlText_UTF16Char[]>(iReqSize);
+	rlText_UTF8toUTF16((const rlText_ByteChar *)szFilepath, up_szUTF16.get(), iReqSize);
+
+	std::ifstream file((wchar_t *)up_szUTF16.get(), std::ios::binary);
+#else
 	std::ifstream file(szFilepath, std::ios::binary);
+#endif
+
 	if (!file)
 		return false;
 
-	uint8_t iEncoding = 0;
+	rlText_Encoding iEncoding = 0;
 
 	const size_t iFileSize = file.seekg(0, std::ios::end).tellg();
 	file.clear();
@@ -480,4 +491,93 @@ RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
 	if (pEncoding)
 		*pEncoding = iEncoding;
 	return true;
+}
+
+
+
+RLTEXT_API rlText_File EXPORT rlText_FileOpen(
+	const char     *szFilepath,
+	rlText_Encoding iEncoding
+)
+{
+	return 0; // todo
+}
+
+RLTEXT_API rlText_File EXPORT rlText_FileCreate(
+	rlText_Encoding  iEncoding,
+	rlText_Linebreak iLinebreakStyle
+)
+{
+	return 0; // todo
+}
+
+RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
+	rlText_File     oFile,
+	const char     *szFilepath,
+	rlText_Encoding iEncoding
+)
+{
+	return false; // todo
+}
+
+RLTEXT_API void EXPORT rlText_FileFree(rlText_File oFile)
+{
+	// todo
+}
+
+RLTEXT_API rlText_Count EXPORT rlText_FileGetLineCount(rlText_File oFile)
+{
+	return 0; // todo
+}
+
+RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
+	rlText_File  oFile,
+	rlText_Count iLine,
+	char        *pBuf,
+	rlText_Count iBufSize
+)
+{
+	return 0; // todo
+}
+
+RLTEXT_API rlText_Bool EXPORT rlText_FileSetLine(
+	rlText_File  oFile,
+	rlText_Count iLine,
+	const char  *szLine,
+	rlText_Bool  bReplace
+)
+{
+	return false; // todo
+}
+
+RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(
+	rlText_File oFile
+)
+{
+	return 0; // todo
+}
+
+RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
+	rlText_File      oFile,
+	rlText_Linebreak iLinebreakType
+)
+{
+	return false; // todo
+}
+
+RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
+	rlText_File  oFile,
+	char        *pBuf,
+	rlText_Count iBufSize
+)
+{
+	return 0; // todo
+}
+
+RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
+	rlText_File oFile,
+	const char *sz
+)
+{
+	return false; // todo
 }

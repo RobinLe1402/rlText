@@ -1,7 +1,9 @@
 #include <rlTextDLL/Decode.h>
 #include <rlTextDLL/Encode.h>
 #include <rlTextDLL/FileIO.h>
+#include <rlTextDLL/Windows.hpp>
 
+#include <malloc.h>
 #include <memory.h>
 #include <stdio.h>
 
@@ -139,13 +141,13 @@ int test(rlText_UTF32Char ch, const char *szCharDescr)
 	return iResult;
 }
 
-int testfile(const wchar_t *szFilepath)
+int testfile(const char *szFilepath)
 {
 	uint8_t iEncoding;
 	rlText_FileStatisticsStruct oStatistics;
 	if (!rlText_GetFileInfo(szFilepath, &iEncoding, &oStatistics, 0))
 	{
-		printf("  GetFileInfo failed on \"%ls\".\n", szFilepath);
+		printf("  GetFileInfo failed on \"%s\".\n", szFilepath);
 		return 0;
 	}
 
@@ -198,7 +200,7 @@ int testfile(const wchar_t *szFilepath)
 		if (oEncodings[i].iEncodingID == iEncoding)
 		{
 			bFound = 1;
-			printf("  \"%ls\": Encoding %s [%-3llu chars, "
+			printf("  \"%s\": Encoding %s [%-3llu chars, "
 				"%-2llux \"\\n\", %-2llux \"\\r\\n\", %-2llux \"\\r\"]\n",
 				szFilepath,
 				oEncodings[i].szIdent,
@@ -211,7 +213,7 @@ int testfile(const wchar_t *szFilepath)
 #undef ENCODING_COUNT
 	
 	if (!bFound)
-		printf("  \"%ls\": ERROR - GetFileInfo returned an unknown encoding ID\n", szFilepath);
+		printf("  \"%s\": ERROR - GetFileInfo returned an unknown encoding ID\n", szFilepath);
 
 	return bFound;
 }
@@ -227,17 +229,54 @@ int main(int argc, char* argv[])
 		printf("\nSUCCESS.\n");
 
 	printf("\nFileIO test:\n");
-	if (!testfile(L"../test-textfiles/ASCII.txt    ") ||
-		!testfile(L"../test-textfiles/CP1252.txt   ") ||
-		!testfile(L"../test-textfiles/UTF-8.txt    ") ||
-		!testfile(L"../test-textfiles/UTF-8 BOM.txt") ||
-		!testfile(L"../test-textfiles/UTF-16 LE.txt") ||
-		!testfile(L"../test-textfiles/UTF-16 BE.txt") ||
-		!testfile(L"../test-textfiles/UTF-32 LE.txt") ||
-		!testfile(L"../test-textfiles/UTF-32 BE.txt"))
+	if (!testfile(u8"../test-textfiles/ASCII.txt    ") ||
+		!testfile(u8"../test-textfiles/CP1252.txt   ") ||
+		!testfile(u8"../test-textfiles/UTF-8.txt    ") ||
+		!testfile(u8"../test-textfiles/UTF-8 BOM.txt") ||
+		!testfile(u8"../test-textfiles/UTF-16 LE.txt") ||
+		!testfile(u8"../test-textfiles/UTF-16 BE.txt") ||
+		!testfile(u8"../test-textfiles/UTF-32 LE.txt") ||
+		!testfile(u8"../test-textfiles/UTF-32 BE.txt"))
 		printf("\nFAIL.\n");
 	else
 		printf("\nSUCCESS.\n");
+
+
+
+	printf("\nTrying to convert a UTF-16 string to UTF-8 and back...\n");
+
+	const rlText_UTF16Char szUTF16[] = u"TEST\n\xC4\xD6\xDC \U0001F600";
+
+	const rlText_Count iReqSize_UTF8 = rlText_UTF16toUTF8(szUTF16, 0, 0);
+	rlText_ByteChar *szUTF8_converted =
+		(rlText_ByteChar *)malloc(iReqSize_UTF8);
+
+	if (iReqSize_UTF8 != rlText_UTF16toUTF8(szUTF16, szUTF8_converted, iReqSize_UTF8))
+		printf("  WARNING: UTF16toUTF8 wrote less data than it previously returned as required.\n");
+
+
+	const rlText_Count iReqSize_UTF16 = rlText_UTF8toUTF16(szUTF8_converted, 0, 0);
+	rlText_UTF16Char *szUTF16_converted =
+		(rlText_UTF16Char *)malloc(iReqSize_UTF16 * sizeof(rlText_UTF16Char));
+
+	if (iReqSize_UTF16 * sizeof(rlText_UTF16Char) != sizeof(szUTF16))
+		printf("  WARNING: "
+			"UTF8toUTF16 returned a required size not equal to the original string.\n");
+	if (iReqSize_UTF16 != rlText_UTF8toUTF16(szUTF8_converted, szUTF16_converted, iReqSize_UTF16))
+		printf("  WARNING: UTF8toUTF16 wrote less data than it previously returned as required.\n");
+
+	if (wcscmp(szUTF16, szUTF16_converted) != 0)
+	{
+		printf("  ERROR: The original UTF-16 string and the one recreated via "
+			"UTF-16 --> UTF-8 --> UTF-16 are not identical!\n");
+		printf("\nFAIL.\n");
+	}
+	else
+		printf("\nSUCCESS.\n");
+
+
+	free(szUTF8_converted);
+
 
 
 	return 0;
