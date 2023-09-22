@@ -81,6 +81,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>RLTEXT_EXPORT;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -95,6 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>RLTEXT_EXPORT;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,6 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>RLTEXT_EXPORT;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,6 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>RLTEXT_EXPORT;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,13 +139,16 @@
     <ClInclude Include="include\rlTextDLL\Decode.h" />
     <ClInclude Include="include\rlTextDLL\Encode.h" />
     <ClInclude Include="include\rlTextDLL\ExportSpecs.h" />
+    <ClInclude Include="include\rlTextDLL\FileIO.h" />
     <ClInclude Include="include\rlTextDLL\Types.h" />
     <ClInclude Include="include\rlTextDLL\Unicode.h" />
     <ClInclude Include="src\include\CP1252.hpp" />
+    <ClInclude Include="src\include\HostEndian.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Decode.cpp" />
     <ClCompile Include="src\Encode.cpp" />
+    <ClCompile Include="src\FileIO.cpp" />
     <ClCompile Include="src\Unicode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,6 @@
-#include <rlTextDLL/Encode.h>
 #include <rlTextDLL/Decode.h>
+#include <rlTextDLL/Encode.h>
+#include <rlTextDLL/FileIO.h>
 
 #include <memory.h>
 #include <stdio.h>
@@ -138,6 +139,83 @@ int test(rlText_UTF32Char ch, const char *szCharDescr)
 	return iResult;
 }
 
+int testfile(const wchar_t *szFilepath)
+{
+	uint8_t iEncoding;
+	rlText_FileStatisticsStruct oStatistics;
+	if (!rlText_GetFileInfo(szFilepath, &iEncoding, &oStatistics, 0))
+	{
+		printf("  GetFileInfo failed on \"%ls\".\n", szFilepath);
+		return 0;
+	}
+
+	typedef struct
+	{
+		uint8_t iEncodingID;
+		const char szIdent[10];
+	} EncodingInfo;
+
+#define ENCODING_COUNT 8
+	const EncodingInfo oEncodings[ENCODING_COUNT] =
+	{
+		{
+			RLTEXT_FILEENCODING_ASCII,
+			"ASCII    "
+		},
+		{
+			RLTEXT_FILEENCODING_CP1252,
+			"CP1252   "
+		},
+		{
+			RLTEXT_FILEENCODING_UTF8,
+			"UTF-8    "
+		},
+		{
+			RLTEXT_FILEENCODING_UTF8BOM,
+			"UTF-8 BOM"
+		},
+		{
+			RLTEXT_FILEENCODING_UTF16LE,
+			"UTF-16 LE"
+		},
+		{
+			RLTEXT_FILEENCODING_UTF16BE,
+			"UTF-16 BE"
+		},
+		{
+			RLTEXT_FILEENCODING_UTF32LE,
+			"UTF-32 LE"
+		},
+		{
+			RLTEXT_FILEENCODING_UTF32BE,
+			"UTF-32 BE"
+		}
+	};
+
+	int bFound = 0;
+	for (int i = 0; i < ENCODING_COUNT; ++i)
+	{
+		if (oEncodings[i].iEncodingID == iEncoding)
+		{
+			bFound = 1;
+			printf("  \"%ls\": Encoding %s [%-3llu chars, "
+				"%-2llux \"\\n\", %-2llux \"\\r\\n\", %-2llux \"\\r\"]\n",
+				szFilepath,
+				oEncodings[i].szIdent,
+				oStatistics.iCharCount,
+				oStatistics.iLineBreakCount[RLTEXT_LINEBREAK_UNIX],
+				oStatistics.iLineBreakCount[RLTEXT_LINEBREAK_WINDOWS],
+				oStatistics.iLineBreakCount[RLTEXT_LINEBREAK_MACINTOSH]);
+		}
+	}
+#undef ENCODING_COUNT
+	
+	if (!bFound)
+		printf("  \"%ls\": ERROR - GetFileInfo returned an unknown encoding ID\n", szFilepath);
+
+	return bFound;
+}
+
 int main(int argc, char* argv[])
 {
 	if (!test(U'\U000000F6', "o-Umlaut") ||
@@ -147,6 +225,20 @@ int main(int argc, char* argv[])
 		printf("\nFAIL.\n");
 	else
 		printf("\nSUCCESS.\n");
+
+	printf("\nFileIO test:\n");
+	if (!testfile(L"../test-textfiles/ASCII.txt    ") ||
+		!testfile(L"../test-textfiles/CP1252.txt   ") ||
+		!testfile(L"../test-textfiles/UTF-8.txt    ") ||
+		!testfile(L"../test-textfiles/UTF-8 BOM.txt") ||
+		!testfile(L"../test-textfiles/UTF-16 LE.txt") ||
+		!testfile(L"../test-textfiles/UTF-16 BE.txt") ||
+		!testfile(L"../test-textfiles/UTF-32 LE.txt") ||
+		!testfile(L"../test-textfiles/UTF-32 BE.txt"))
+		printf("\nFAIL.\n");
+	else
+		printf("\nSUCCESS.\n");
+
 
 	return 0;
 }

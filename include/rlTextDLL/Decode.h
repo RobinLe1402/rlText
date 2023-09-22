@@ -45,8 +45,8 @@ RLTEXT_API rlText_Bool EXPORT rlText_DecodeCP1252(
 /// If the function fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
-	rlText_ByteChar  *pEncoded,
-	rlText_UTF32Char *pDecoded
+	const rlText_ByteChar  *pEncoded,
+	      rlText_UTF32Char *pDecoded
 );
 
 /// <summary>
@@ -65,8 +65,8 @@ RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
 /// If the function fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF16(
-	rlText_UTF16Char *pEncoded,
-	rlText_UTF32Char *pDecoded
+	const rlText_UTF16Char *pEncoded,
+	      rlText_UTF32Char *pDecoded
 );
 
 

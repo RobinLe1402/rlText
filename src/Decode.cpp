@@ -17,8 +17,8 @@ RLTEXT_API rlText_Bool EXPORT rlText_DecodeCP1252(
 }
 
 RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
-	rlText_ByteChar  *pEncoded,
-	rlText_UTF32Char *pDecoded
+	const rlText_ByteChar  *pEncoded,
+	      rlText_UTF32Char *pDecoded
 )
 {
 	rlText_Unsigned iResult = 0;
@@ -77,8 +77,8 @@ RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
 }
 
 RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF16(
-	rlText_UTF16Char *pEncoded,
-	rlText_UTF32Char *pDecoded
+	const rlText_UTF16Char *pEncoded,
+	      rlText_UTF32Char *pDecoded
 )
 {
 	rlText_Unsigned iResult = 0;
