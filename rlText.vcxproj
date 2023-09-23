@@ -145,11 +145,15 @@
     <ClInclude Include="include\rlTextDLL\Windows.hpp" />
     <ClInclude Include="src\include\CP1252.hpp" />
     <ClInclude Include="src\include\HostEndian.hpp" />
+    <ClInclude Include="src\include\PrivateTools.hpp" />
+    <ClInclude Include="src\include\TextFile.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Decode.cpp" />
     <ClCompile Include="src\Encode.cpp" />
     <ClCompile Include="src\FileIO.cpp" />
+    <ClCompile Include="src\PrivateTools.cpp" />
+    <ClCompile Include="src\TextFile.cpp" />
     <ClCompile Include="src\Unicode.cpp" />
     <ClCompile Include="src\Windows.cpp" />
   </ItemGroup>

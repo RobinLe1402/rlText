@@ -279,5 +279,35 @@ int main(int argc, char* argv[])
 
 
 
+	{
+		printf("\nTesting the File handle...\n");
+		rlText_File file = rlText_FileOpen(u8"../test-textfiles/UTF-32 BE.txt", 0);
+		if (file)
+		{
+			const char szLineBreakName[][15] =
+			{
+				"\\n (UNIX)",
+				"\\r\\n (Windows)",
+				"\\r (Macintosh)"
+			};
+
+			printf("  FileOpen succeeded.\n");
+			printf("  %llu lines found.\n", rlText_FileGetLineCount(file));
+			printf("  Linebreak type: %s.\n", szLineBreakName[rlText_FileGetLinebreakType(file)]);
+
+			if (!rlText_FileSave(file, u8"C:\\[TempDel]\\test.txt", 0, 0))
+				printf("  FAIL: FileSave failed.\n");
+			else
+				printf("  FileSave succeeded.\n");
+
+			rlText_FileFree(file);
+			printf("  File freed.\n");
+		}
+		else
+			printf("  FAIL: FileOpen returned 0.\n");
+	}
+
+
+
 	return 0;
 }

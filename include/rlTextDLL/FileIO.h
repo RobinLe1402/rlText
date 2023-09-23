@@ -153,10 +153,7 @@ RLTEXT_API rlText_File EXPORT rlText_FileOpen(
 /// If the function succeeds, it returns a handle to the text data.
 /// Once you don't need it anymore, make sure to free it via <c>rlText_FileFree</c>.
 /// </returns>
-RLTEXT_API rlText_File EXPORT rlText_FileCreate(
-	rlText_Encoding  iEncoding,
-	rlText_Linebreak iLinebreakStyle
-);
+RLTEXT_API rlText_File EXPORT rlText_FileCreate(rlText_Linebreak iLinebreakStyle);
 
 /// <summary>Save text data to a file.</summary>
 /// <param name="oFile">A handle to the text data to process.</param>
@@ -175,6 +172,7 @@ RLTEXT_API rlText_File EXPORT rlText_FileCreate(
 /// <li><c>RLTEXT_FILEENCODING_UTF32LE</c></li>
 /// <li><c>RLTEXT_FILEENCODING_UTF32BE</c></li>
 /// </ul>
+/// Can be zero. In this case, the default encoding (UTF-8 BOM) will be used.
 /// </param>
 /// <param name="bTrailingLinebreak">
 /// If this value is nonzero, a final linebreak will be written to the end of the file.
@@ -350,7 +348,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
 /// If the function succeeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_FileClear(
+RLTEXT_API void EXPORT rlText_FileClear(
 	rlText_File oFile
 );
 

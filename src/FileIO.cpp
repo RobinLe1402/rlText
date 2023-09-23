@@ -5,25 +5,11 @@
 #include "rlTextDLL/Unicode.h"
 #include "rlTextDLL/Windows.hpp"
 #include "include/HostEndian.hpp"
+#include "include/PrivateTools.hpp"
+#include "include/TextFile.hpp"
 
 #include <fstream>
 #include <functional>
-
-
-
-rlText_UTF16Char FlipByteOrder(rlText_UTF16Char ch)
-{
-	return (ch >> 8) | (ch << 8);
-}
-
-rlText_UTF32Char FlipByteOrder(rlText_UTF32Char ch)
-{
-	return
-		((ch >> 24)) |
-		((ch >> 8 ) & 0x0000FF00) |
-		((ch << 8 ) & 0x00FF0000) |
-		((ch << 24));
-}
 
 
 
@@ -202,27 +188,13 @@ RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
 	if (bBOM)
 	{
 		const bool bFlipByteOrder =
-			(bHostIsBigEndian && (iEncoding & RLTEXT_FILEENCODING_FLAG_LITTLE_ENDIAN)) ||
-			(!bHostIsBigEndian && (iEncoding & RLTEXT_FILEENCODING_FLAG_BIG_ENDIAN));
+			ByteOrderFlipNecessary(iEncoding & RLTEXT_FILEENCODING_MASK_FLAG_ENDIAN);
 
 		const auto iEncID = iEncoding & RLTEXT_FILEENCODING_MASK_ENCODING;
 
 		// go back to right after BOM
-		switch (iEncID)
-		{
-		case RLTEXT_FILEENCODING_UTF32:
-			break;
-		case RLTEXT_FILEENCODING_UTF8:
-			file.seekg(3, std::ios::beg);
-			break;
-		case RLTEXT_FILEENCODING_UTF16:
-			file.seekg(2, std::ios::beg);
-			break;
-		default:
-			return false; // unknown BOM (bug)
-		}
-
-		file.clear(std::ios::eofbit);
+		file.clear();
+		file.seekg(BOMLen(iEncoding), std::ios::beg);
 
 
 		// Here's a compatibility list between BOMs and encodings without a mandatory BOM.
@@ -429,37 +401,12 @@ RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
 	if (pStatistics)
 	{
 		file.clear();
-
-		// if there's a BOM, go back to right after the BOM.
-		// otherwise, go back to the start of the file.
-		switch (iEncoding & RLTEXT_FILEENCODING_MASK_ENCODING)
-		{
-		case RLTEXT_FILEENCODING_UTF16:
-			file.seekg(2, std::ios::beg);
-			break;
-
-		case RLTEXT_FILEENCODING_UTF32:
-			file.seekg(4, std::ios::beg);
-			break;
-
-		case RLTEXT_FILEENCODING_UTF8:
-			if (iEncoding & RLTEXT_FILEENCODING_FLAG_BOM)
-			{
-				file.seekg(3, std::ios::beg);
-				break;
-			}
-
-			[[fallthrough]];
-
-		default:
-			file.seekg(0, std::ios::beg);
-		}
+		file.seekg(BOMLen(iEncoding), std::ios::beg);
 
 		rlText_UTF32Char chCur = 0;
 		rlText_UTF32Char chPrv = 0;
 		const bool bFlipByteOrder =
-			(bHostIsBigEndian && (iEncoding & RLTEXT_FILEENCODING_FLAG_LITTLE_ENDIAN)) ||
-			(!bHostIsBigEndian && (iEncoding & RLTEXT_FILEENCODING_FLAG_BIG_ENDIAN));
+			ByteOrderFlipNecessary(iEncoding & RLTEXT_FILEENCODING_MASK_FLAG_ENDIAN);
 		while (file.peek() != EOF)
 		{
 			++pStatistics->iCharCount;
@@ -500,15 +447,12 @@ RLTEXT_API rlText_File EXPORT rlText_FileOpen(
 	rlText_Encoding iEncoding
 )
 {
-	return 0; // todo
+	return (rlText_File)TextFile::Open(szFilepath, iEncoding);
 }
 
-RLTEXT_API rlText_File EXPORT rlText_FileCreate(
-	rlText_Encoding  iEncoding,
-	rlText_Linebreak iLinebreakStyle
-)
+RLTEXT_API rlText_File EXPORT rlText_FileCreate(rlText_Linebreak iLinebreakStyle)
 {
-	return 0; // todo
+	return (rlText_File)TextFile::Create(iLinebreakStyle);
 }
 
 RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
@@ -518,17 +462,18 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
 	rlText_Bool     bTrailingLinebreak
 )
 {
-	return false; // todo
+	const auto &obj = *(TextFile*)oFile;
+	return obj.saveToFile(szFilepath, iEncoding, bTrailingLinebreak);
 }
 
 RLTEXT_API void EXPORT rlText_FileFree(rlText_File oFile)
 {
-	// todo
+	delete (TextFile*)oFile;
 }
 
 RLTEXT_API rlText_Count EXPORT rlText_FileGetLineCount(rlText_File oFile)
 {
-	return 0; // todo
+	return (*(const TextFile*)oFile).getLineCount();
 }
 
 RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
@@ -538,7 +483,23 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
 	rlText_Count iBufSize
 )
 {
-	return 0; // todo
+	const auto &obj = *(const TextFile*)oFile;
+
+	if (iLine >= obj.getLineCount())
+		return 0;
+
+	const auto& sLine = obj.getLine(iLine);
+
+	const auto iStrSize = sLine.length() + 1;
+
+	if (!pBuf || !iBufSize)
+		return iStrSize;
+
+	if (iBufSize < iStrSize)
+		return 0;
+
+	memcpy_s(pBuf, iBufSize, sLine.c_str(), iStrSize);
+	return iStrSize;
 }
 
 RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
@@ -548,7 +509,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
 	rlText_Bool  bReplace
 )
 {
-	return false; // todo
+	return (*(TextFile*)oFile).setLine(iLine, szLine, bReplace);
 }
 
 RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
@@ -556,12 +517,12 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
 	rlText_Count iLine
 )
 {
-	return false; // todo
+	return (*(TextFile*)oFile).deleteLine(iLine);
 }
 
 RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(rlText_File oFile)
 {
-	return 0; // todo
+	return (*(TextFile*)oFile).getLinebreakType();
 }
 
 RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
@@ -569,7 +530,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
 	rlText_Linebreak iLinebreakType
 )
 {
-	return false; // todo
+	return (*(TextFile*)oFile).setLinebreakType(iLinebreakType);
 }
 
 RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
@@ -578,7 +539,20 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
 	rlText_Count iBufSize
 )
 {
-	return 0; // todo
+	auto &obj = *(TextFile*)oFile;
+
+	auto iTotalLength = obj.getTotalLength();
+
+	if (!pBuf || !iBufSize)
+		return iTotalLength;
+
+	if (iBufSize < iTotalLength)
+		return 0;
+
+
+	auto sText = obj.getAsText();
+	memcpy_s(pBuf, iBufSize, sText.c_str(), iTotalLength);
+	return iTotalLength;
 }
 
 RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
@@ -586,12 +560,12 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
 	const char *sz
 )
 {
-	return false; // todo
+	return (*(TextFile*)oFile).setText(sz);
 }
 
-RLTEXT_API rlText_Bool EXPORT rlText_FileClear(
+RLTEXT_API void EXPORT rlText_FileClear(
 	rlText_File oFile
 )
 {
-	return false; // todo
+	return (*(TextFile*)oFile).clear();
 }
