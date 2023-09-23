@@ -25,10 +25,10 @@
 /// </param>
 /// <returns>
 /// If both <c>pBuf</c> and <c>iBufSize</c> are nonzero, the return value indicates the count of
-/// characters written to the buffer, including the terminating zero.<para />
+/// characters written to the buffer, including the terminating zero.<para/>
 /// If either <c>pBuf</c> or <c>iBufSize</c> is set to zero, the return value indicates the required
-/// size of the buffer, in characters, including the terminating zero.<para />
-/// <para />
+/// size of the buffer, in characters, including the terminating zero.<para/>
+/// <para/>
 /// It is always guaranteed that only valid UTF-16 values are written to <c>pBuf</c>, if the buffer
 /// is not large enough to hold the 2nd surrogate, the 1st surrogate is not written either.
 /// </returns>
@@ -52,10 +52,10 @@ RLTEXT_API rlText_Count EXPORT rlText_UTF8toUTF16(
 /// </param>
 /// <returns>
 /// If both <c>pBuf</c> and <c>iBufSize</c> are nonzero, the return value indicates the count of
-/// characters written to the buffer, including the terminating zero.<para />
+/// characters written to the buffer, including the terminating zero.<para/>
 /// If either <c>pBuf</c> or <c>iBufSize</c> is set to zero, the return value indicates the required
-/// size of the buffer, in characters, including the terminating zero.<para />
-/// <para />
+/// size of the buffer, in characters, including the terminating zero.<para/>
+/// <para/>
 /// It is always guaranteed that only valid UTF-8 values are written to <c>pBuf</c>, if the buffer
 /// is not large enough to hold some of the codeunits of a character, the first few codeunits are
 /// not written either.

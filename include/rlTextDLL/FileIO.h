@@ -75,7 +75,7 @@ typedef struct
 /// file.
 /// </param>
 /// <returns>
-/// If the function succeeds, it returns nonzero.<para />
+/// If the function succeeds, it returns nonzero.<para/>
 /// If it fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
@@ -97,7 +97,7 @@ typedef struct
 /// <summary>Read and decode a text file.</summary>
 /// <param name="szFilepath">[UTF-8] The filepath of the file to decode.</param>
 /// <param name="iEncoding">
-/// The encoding to use; one of the following values:<para />
+/// The encoding to use; one of the following values:<para/>
 /// <ul>
 /// <li><c>RLTEXT_FILEENCODING_ASCII</c></li>
 /// <li><c>RLTEXT_FILEENCODING_CP1252</c></li>
@@ -113,7 +113,7 @@ typedef struct
 /// Can be zero. In this case, the encoding is automatically determined.
 /// </param>
 /// <returns>
-/// If the function fails, it returns zero.<para />
+/// If the function fails, it returns zero.<para/>
 /// If the function succeeds, it returns a handle to the text data.
 /// Once you don't need it anymore, make sure to free it via <c>rlText_FileFree</c>.
 /// </returns>
@@ -124,7 +124,7 @@ RLTEXT_API rlText_File EXPORT rlText_FileOpen(
 
 /// <summary>Create text data from scratch.</summary>
 /// <param name="iEncoding">
-/// The encoding to use; one of the following values:<para />
+/// The encoding to use; one of the following values:<para/>
 /// <ul>
 /// <li><c>RLTEXT_FILEENCODING_ASCII</c></li>
 /// <li><c>RLTEXT_FILEENCODING_CP1252</c></li>
@@ -145,11 +145,11 @@ RLTEXT_API rlText_File EXPORT rlText_FileOpen(
 /// <li><c>RLTEXT_LINEBREAK_UNIX</c> (\n)</li>
 /// <li><c>RLTEXT_LINEBREAK_WINDOWS</c> (\r\n)</li>
 /// <li><c>RLTEXT_LINEBREAK_MACINTOSH</c> (\r)</li>
-/// </ul><para />
+/// </ul><para/>
 /// Can also be zero, in which case the OS-native linebreak type will be used.
 /// </param>
 /// <returns>
-/// If the function fails, it returns zero.<para />
+/// If the function fails, it returns zero.<para/>
 /// If the function succeeds, it returns a handle to the text data.
 /// Once you don't need it anymore, make sure to free it via <c>rlText_FileFree</c>.
 /// </returns>
@@ -159,7 +159,7 @@ RLTEXT_API rlText_File EXPORT rlText_FileCreate(rlText_Linebreak iLinebreakStyle
 /// <param name="oFile">A handle to the text data to process.</param>
 /// <param name="szFilepath">[UTF-8] The filepath to save the text data to.</param>
 /// <param name="iEncoding">
-/// The encoding to use; one of the following values:<para />
+/// The encoding to use; one of the following values:<para/>
 /// <ul>
 /// <li><c>RLTEXT_FILEENCODING_ASCII</c></li>
 /// <li><c>RLTEXT_FILEENCODING_CP1252</c></li>
@@ -178,7 +178,7 @@ RLTEXT_API rlText_File EXPORT rlText_FileCreate(rlText_Linebreak iLinebreakStyle
 /// If this value is nonzero, a final linebreak will be written to the end of the file.
 /// </param>
 /// <returns>
-/// If the function succeeds, it returns nonzero.<para />
+/// If the function succeeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
@@ -196,7 +196,7 @@ RLTEXT_API void EXPORT rlText_FileFree(rlText_File oFile);
 /// <param name="oFile">The handle to the text data.</param>
 /// <returns>
 /// If the function succeeds, it returns the count of lines in the text data (which might be zero).
-/// <para />
+/// <para/>
 /// Otherwise, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Count EXPORT rlText_FileGetLineCount(rlText_File oFile);
@@ -215,7 +215,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLineCount(rlText_File oFile);
 /// </param>
 /// <returns>
 /// If both <c>pBuf</c> and <c>iBufSize</c> are nonzero, the return value indicates the count of
-/// characters written to the buffer, including the terminating zero.<para />
+/// characters written to the buffer, including the terminating zero.<para/>
 /// If either <c>pBuf</c> or <c>iBufSize</c> is set to zero, the return value indicates the required
 /// size of the buffer, in characters, including the terminating zero.
 /// </returns>
@@ -231,18 +231,19 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
 /// <param name="iLine">The zero-based index of the line.</param>
 /// <param name="szLine">
 /// The [UTF-8 encoded] string to insert.<para/>
+/// Cannot be zero.<para/>
 /// If linebreaks are detected in this string, the string will be split up into multiple lines.
 /// </param>
 /// <param name="bReplace">
 /// If this value is nonzero, <c>iLine</c> must be a valid index, and the line at this index will be
-/// replaced by <c>szLine</c>.<para />
+/// replaced by <c>szLine</c>.<para/>
 /// If this value is zero, <c>szLine</c> will be inserted at index <c>iLine</c>. If <c>iLine</c> is
 /// greater than the count of lines in the text data, <c>szLine</c> will be inserted right after the
 /// last line.
 /// </param>
 /// <returns>
 /// If the function succeeds, it returns the nonzero count of lines inserted (strings will be
-/// automatically split into multiple lines if they include linebreaks).<para />
+/// automatically split into multiple lines if they include linebreaks).<para/>
 /// If the function fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
@@ -270,7 +271,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
 /// </summary>
 /// <param name="oFile">The handle of the text data.</param>
 /// <returns>
-/// If the function fails, it returns zero.<para />
+/// If the function fails, it returns zero.<para/>
 /// Otherwise, it returns one of the following values:
 /// <ul>
 /// <li><c>RLTEXT_LINEBREAK_UNIX</c> (\n)</li>
@@ -290,11 +291,11 @@ RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(rlText_File oFile
 /// <li><c>RLTEXT_LINEBREAK_UNIX</c> (\n)</li>
 /// <li><c>RLTEXT_LINEBREAK_WINDOWS</c> (\r\n)</li>
 /// <li><c>RLTEXT_LINEBREAK_MACINTOSH</c> (\r)</li>
-/// </ul><para />
+/// </ul><para/>
 /// Can also be zero, in which case the OS-native linebreak type will be used.
 /// </param>
 /// <returns>
-/// If the function succeds, it returns nonzero.<para />
+/// If the function succeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
@@ -317,7 +318,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
 /// </param>
 /// <returns>
 /// If both <c>pBuf</c> and <c>iBufSize</c> are nonzero, the return value indicates the count of
-/// characters written to the buffer, including the terminating zero.<para />
+/// characters written to the buffer, including the terminating zero.<para/>
 /// If either <c>pBuf</c> or <c>iBufSize</c> is set to zero, the return value indicates the required
 /// size of the buffer, in characters, including the terminating zero.
 /// </returns>
@@ -331,6 +332,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
 /// <param name="oFile">The handle to the text data.</param>
 /// <param name="sz">
 /// The [UTF-8 encoded] new contents of the text data.<para/>
+/// Cannot be zero.<para/>
 /// The previous style of linebreaks will be kept and all linebreaks will be converted accordingly.
 /// </param>
 /// <returns>
