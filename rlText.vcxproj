@@ -157,6 +157,9 @@
     <ClCompile Include="src\Unicode.cpp" />
     <ClCompile Include="src\Windows.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\resource.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
