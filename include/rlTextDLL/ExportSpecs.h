@@ -9,7 +9,7 @@
 #ifdef __cplusplus
 #define RLTEXT_API extern "C"
 #else
-#define RLTEXT_API
+#define RLTEXT_API extern
 #endif
 
 #if defined RLTEXT_EXPORT
