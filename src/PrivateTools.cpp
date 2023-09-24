@@ -1,7 +1,7 @@
 #include "include/PrivateTools.hpp"
 
 #ifdef _WIN32
-#include "rlTextDLL/Windows.hpp"
+#include "rlTextDLL/Windows.h"
 #endif
 
 #ifdef _WIN32

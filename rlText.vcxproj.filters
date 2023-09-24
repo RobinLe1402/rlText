@@ -42,14 +42,14 @@
     <ClInclude Include="src\include\HostEndian.hpp">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
-    <ClInclude Include="include\rlTextDLL\Windows.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\PrivateTools.hpp">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
     <ClInclude Include="src\include\TextFile.hpp">
       <Filter>Header Files\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\rlTextDLL\Windows.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

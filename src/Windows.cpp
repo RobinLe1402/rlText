@@ -1,4 +1,4 @@
-#include "rlTextDLL/Windows.hpp"
+#include "rlTextDLL/Windows.h"
 
 #include "rlTextDLL/Decode.h"
 #include "rlTextDLL/Encode.h"

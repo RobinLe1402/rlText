@@ -83,7 +83,7 @@
     <ClInclude Include="include\rlTextDLL\FileIO.h" />
     <ClInclude Include="include\rlTextDLL\Types.h" />
     <ClInclude Include="include\rlTextDLL\Unicode.h" />
-    <ClInclude Include="include\rlTextDLL\Windows.hpp" />
+    <ClInclude Include="include\rlTextDLL\Windows.h" />
     <ClInclude Include="src\include\CP1252.hpp" />
     <ClInclude Include="src\include\HostEndian.hpp" />
     <ClInclude Include="src\include\PrivateTools.hpp" />

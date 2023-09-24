@@ -3,7 +3,7 @@
 #include "rlTextDLL/Decode.h"
 #include "rlTextDLL/Encode.h"
 #include "rlTextDLL/Unicode.h"
-#include "rlTextDLL/Windows.hpp"
+#include "rlTextDLL/Windows.h"
 #include "include/HostEndian.hpp"
 #include "include/PrivateTools.hpp"
 #include "include/TextFile.hpp"
