@@ -91,7 +91,7 @@ rlText_UTF32Char ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool 
 	return chResult;
 }
 
-RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 	const char                  *szFilepath,
 	rlText_Encoding             *pEncoding,
 	rlText_FileStatisticsStruct *pStatistics,
@@ -442,7 +442,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
 
 
 
-RLTEXT_API rlText_File EXPORT rlText_FileOpen(
+RLTEXT_API rlText_File RLTEXT_LIB rlText_FileOpen(
 	const char     *szFilepath,
 	rlText_Encoding iEncoding
 )
@@ -450,12 +450,12 @@ RLTEXT_API rlText_File EXPORT rlText_FileOpen(
 	return (rlText_File)TextFile::Open(szFilepath, iEncoding);
 }
 
-RLTEXT_API rlText_File EXPORT rlText_FileCreate(rlText_Linebreak iLinebreakStyle)
+RLTEXT_API rlText_File RLTEXT_LIB rlText_FileCreate(rlText_Linebreak iLinebreakStyle)
 {
 	return (rlText_File)TextFile::Create(iLinebreakStyle);
 }
 
-RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSave(
 	rlText_File     oFile,
 	const char     *szFilepath,
 	rlText_Encoding iEncoding,
@@ -466,17 +466,17 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
 	return obj.saveToFile(szFilepath, iEncoding, bTrailingLinebreak);
 }
 
-RLTEXT_API void EXPORT rlText_FileFree(rlText_File oFile)
+RLTEXT_API void RLTEXT_LIB rlText_FileFree(rlText_File oFile)
 {
 	delete (TextFile*)oFile;
 }
 
-RLTEXT_API rlText_Count EXPORT rlText_FileGetLineCount(rlText_File oFile)
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetLineCount(rlText_File oFile)
 {
 	return (*(const TextFile*)oFile).getLineCount();
 }
 
-RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetLine(
 	rlText_File  oFile,
 	rlText_Count iLine,
 	char        *pBuf,
@@ -502,7 +502,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
 	return iStrSize;
 }
 
-RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileSetLine(
 	rlText_File  oFile,
 	rlText_Count iLine,
 	const char  *szLine,
@@ -512,7 +512,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
 	return (*(TextFile*)oFile).setLine(iLine, szLine, bReplace);
 }
 
-RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileDeleteLine(
 	rlText_File  oFile,
 	rlText_Count iLine
 )
@@ -520,12 +520,12 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
 	return (*(TextFile*)oFile).deleteLine(iLine);
 }
 
-RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(rlText_File oFile)
+RLTEXT_API rlText_Linebreak RLTEXT_LIB rlText_FileGetLinebreakType(rlText_File oFile)
 {
 	return (*(TextFile*)oFile).getLinebreakType();
 }
 
-RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSetLinebreakType(
 	rlText_File      oFile,
 	rlText_Linebreak iLinebreakType
 )
@@ -533,7 +533,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
 	return (*(TextFile*)oFile).setLinebreakType(iLinebreakType);
 }
 
-RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetAsSingleString(
 	rlText_File  oFile,
 	char        *pBuf,
 	rlText_Count iBufSize
@@ -555,7 +555,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
 	return iTotalLength;
 }
 
-RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSetAsSingleString(
 	rlText_File oFile,
 	const char *sz
 )
@@ -563,7 +563,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
 	return (*(TextFile*)oFile).setText(sz);
 }
 
-RLTEXT_API void EXPORT rlText_FileClear(
+RLTEXT_API void RLTEXT_LIB rlText_FileClear(
 	rlText_File oFile
 )
 {

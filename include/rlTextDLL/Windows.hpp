@@ -32,7 +32,7 @@
 /// It is always guaranteed that only valid UTF-16 values are written to <c>pBuf</c>, if the buffer
 /// is not large enough to hold the 2nd surrogate, the 1st surrogate is not written either.
 /// </returns>
-RLTEXT_API rlText_Count EXPORT rlText_UTF8toUTF16(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 	const rlText_ByteChar  *szUTF8,
 	      rlText_UTF16Char *pBuf,
 	      rlText_Count      iBufSize
@@ -60,7 +60,7 @@ RLTEXT_API rlText_Count EXPORT rlText_UTF8toUTF16(
 /// is not large enough to hold some of the codeunits of a character, the first few codeunits are
 /// not written either.
 /// </returns>
-RLTEXT_API rlText_Count EXPORT rlText_UTF16toUTF8(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
 	const rlText_UTF16Char *szUTF16,
 		  rlText_ByteChar  *pBuf,
 		  rlText_Count      iBufSize

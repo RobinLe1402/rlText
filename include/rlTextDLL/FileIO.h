@@ -78,7 +78,7 @@ typedef struct
 /// If the function succeeds, it returns nonzero.<para/>
 /// If it fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_GetFileInfo(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 	const char                  *szFilepath,
 	rlText_Encoding             *pEncoding,
 	rlText_FileStatisticsStruct *pStatistics,
@@ -117,7 +117,7 @@ typedef struct
 /// If the function succeeds, it returns a handle to the text data.
 /// Once you don't need it anymore, make sure to free it via <c>rlText_FileFree</c>.
 /// </returns>
-RLTEXT_API rlText_File EXPORT rlText_FileOpen(
+RLTEXT_API rlText_File RLTEXT_LIB rlText_FileOpen(
 	const char     *szFilepath,
 	rlText_Encoding iEncoding
 );
@@ -153,7 +153,7 @@ RLTEXT_API rlText_File EXPORT rlText_FileOpen(
 /// If the function succeeds, it returns a handle to the text data.
 /// Once you don't need it anymore, make sure to free it via <c>rlText_FileFree</c>.
 /// </returns>
-RLTEXT_API rlText_File EXPORT rlText_FileCreate(rlText_Linebreak iLinebreakStyle);
+RLTEXT_API rlText_File RLTEXT_LIB rlText_FileCreate(rlText_Linebreak iLinebreakStyle);
 
 /// <summary>Save text data to a file.</summary>
 /// <param name="oFile">A handle to the text data to process.</param>
@@ -181,7 +181,7 @@ RLTEXT_API rlText_File EXPORT rlText_FileCreate(rlText_Linebreak iLinebreakStyle
 /// If the function succeeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSave(
 	rlText_File     oFile,
 	const char     *szFilepath,
 	rlText_Encoding iEncoding,
@@ -190,7 +190,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSave(
 
 /// <summary>Free text data.</summary>
 /// <param name="oFile">The handle of the text data to free.</param>
-RLTEXT_API void EXPORT rlText_FileFree(rlText_File oFile);
+RLTEXT_API void RLTEXT_LIB rlText_FileFree(rlText_File oFile);
 
 /// <summary>Get the count of lines of text data.</summary>
 /// <param name="oFile">The handle to the text data.</param>
@@ -199,7 +199,7 @@ RLTEXT_API void EXPORT rlText_FileFree(rlText_File oFile);
 /// <para/>
 /// Otherwise, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Count EXPORT rlText_FileGetLineCount(rlText_File oFile);
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetLineCount(rlText_File oFile);
 
 /// <summary>Get a single line of text from text data.</summary>
 /// <param name="oFile">The handle to the text data.</param>
@@ -219,7 +219,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLineCount(rlText_File oFile);
 /// If either <c>pBuf</c> or <c>iBufSize</c> is set to zero, the return value indicates the required
 /// size of the buffer, in characters, including the terminating zero.
 /// </returns>
-RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetLine(
 	rlText_File  oFile,
 	rlText_Count iLine,
 	char        *pBuf,
@@ -246,7 +246,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetLine(
 /// automatically split into multiple lines if they include linebreaks).<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileSetLine(
 	rlText_File  oFile,
 	rlText_Count iLine,
 	const char  *szLine,
@@ -260,7 +260,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileSetLine(
 /// If the function succeeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileDeleteLine(
 	rlText_File  oFile,
 	rlText_Count iLine
 );
@@ -279,7 +279,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileDeleteLine(
 /// <li><c>RLTEXT_LINEBREAK_MACINTOSH</c> (\r)</li>
 /// </ul>
 /// </returns>
-RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(rlText_File oFile);
+RLTEXT_API rlText_Linebreak RLTEXT_LIB rlText_FileGetLinebreakType(rlText_File oFile);
 
 /// <summary>
 /// Set the type of linebreak that will be used when saving the text data to a file.
@@ -298,7 +298,7 @@ RLTEXT_API rlText_Linebreak EXPORT rlText_FileGetLinebreakType(rlText_File oFile
 /// If the function succeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSetLinebreakType(
 	rlText_File      oFile,
 	rlText_Linebreak iLinebreakType
 );
@@ -322,7 +322,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetLinebreakType(
 /// If either <c>pBuf</c> or <c>iBufSize</c> is set to zero, the return value indicates the required
 /// size of the buffer, in characters, including the terminating zero.
 /// </returns>
-RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetAsSingleString(
 	rlText_File  oFile,
 	char        *pBuf,
 	rlText_Count iBufSize
@@ -339,7 +339,7 @@ RLTEXT_API rlText_Count EXPORT rlText_FileGetAsSingleString(
 /// If the function succeeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSetAsSingleString(
 	rlText_File oFile,
 	const char *sz
 );
@@ -350,7 +350,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_FileSetAsSingleString(
 /// If the function succeeds, it returns nonzero.<para/>
 /// Otherwise, it returns zero.
 /// </returns>
-RLTEXT_API void EXPORT rlText_FileClear(
+RLTEXT_API void RLTEXT_LIB rlText_FileClear(
 	rlText_File oFile
 );
 

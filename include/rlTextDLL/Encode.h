@@ -24,7 +24,7 @@
 /// If the function succeeds, it returns nonzero.<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_EncodeASCII(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeASCII(
 	rlText_UTF32Char ch,
 	rlText_ByteChar *pDest
 );
@@ -42,7 +42,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_EncodeASCII(
 /// If the function succeeds, it returns nonzero.<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_EncodeCP1252(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeCP1252(
 	rlText_UTF32Char ch,
 	rlText_ByteChar *pDest
 );
@@ -61,7 +61,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_EncodeCP1252(
 /// If the function succeeds, it returns nonzero.<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_EncodeUTF8(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF8(
 	rlText_UTF32Char      ch,
 	rlText_UTF8Codepoint *pDest
 );
@@ -80,7 +80,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_EncodeUTF8(
 /// If the function succeeds, it returns nonzero.<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_EncodeUTF16(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF16(
 	rlText_UTF32Char       ch,
 	rlText_UTF16Codepoint *pDest
 );

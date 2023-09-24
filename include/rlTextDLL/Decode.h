@@ -24,7 +24,7 @@
 /// If the function succeeds, it returns nonzero.<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Bool EXPORT rlText_DecodeCP1252(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
 	rlText_ByteChar   cEncoded,
 	rlText_UTF32Char *pDecoded
 );
@@ -44,7 +44,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_DecodeCP1252(
 /// If the function succeeds, it returns the number of codeunits read from <c>pEncoded</c>.<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
+RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
 	const rlText_ByteChar  *pEncoded,
 	      rlText_UTF32Char *pDecoded
 );
@@ -64,7 +64,7 @@ RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
 /// If the function succeeds, it returns the number of codeunits read from <c>pEncoded</c>.<para/>
 /// If the function fails, it returns zero.
 /// </returns>
-RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF16(
+RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF16(
 	const rlText_UTF16Char *pEncoded,
 	      rlText_UTF32Char *pDecoded
 );

@@ -12,10 +12,10 @@
 #define RLTEXT_API extern
 #endif
 
-#if defined RLTEXT_EXPORT
-#define EXPORT __declspec(dllexport) __stdcall
+#if defined RLTEXT_COMPILE
+#define RLTEXT_LIB __declspec(dllexport) __stdcall
 #else
-#define EXPORT __declspec(dllimport)
+#define RLTEXT_LIB __declspec(dllimport)
 #endif
 
 

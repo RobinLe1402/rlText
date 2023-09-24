@@ -5,7 +5,7 @@
 
 
 
-RLTEXT_API rlText_Count EXPORT rlText_UTF8toUTF16(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 	const rlText_ByteChar  *szUTF8,
 		  rlText_UTF16Char *pBuf,
 		  rlText_Count      iBufSize
@@ -81,7 +81,7 @@ RLTEXT_API rlText_Count EXPORT rlText_UTF8toUTF16(
 	return iResult;
 }
 
-RLTEXT_API rlText_Count EXPORT rlText_UTF16toUTF8(
+RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
 	const rlText_UTF16Char *szUTF16,
 		  rlText_ByteChar  *pBuf,
 		  rlText_Count      iBufSize

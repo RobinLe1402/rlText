@@ -3,7 +3,7 @@
 #include "rlTextDLL/Unicode.h"
 #include "include/CP1252.hpp"
 
-RLTEXT_API rlText_Bool EXPORT rlText_DecodeCP1252(
+RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
 	rlText_ByteChar   cEncoded,
 	rlText_UTF32Char *pDecoded
 )
@@ -16,7 +16,7 @@ RLTEXT_API rlText_Bool EXPORT rlText_DecodeCP1252(
 	return *pDecoded != 0xFFFD;
 }
 
-RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
+RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
 	const rlText_ByteChar  *pEncoded,
 	      rlText_UTF32Char *pDecoded
 )
@@ -76,7 +76,7 @@ RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF8(
 	return iResult;
 }
 
-RLTEXT_API rlText_Unsigned EXPORT rlText_DecodeUTF16(
+RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF16(
 	const rlText_UTF16Char *pEncoded,
 	      rlText_UTF32Char *pDecoded
 )
