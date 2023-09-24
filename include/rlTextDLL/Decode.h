@@ -32,7 +32,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
 /// <summary>
 /// Try to decode a UTF-8 character.
 /// </summary>
-/// <param name="cEncoded">
+/// <param name="pEncoded">
 /// A pointer to a zero-terminated string. This function will attempt to decode the first character.
 /// </param>
 /// <param name="pDecoded">
@@ -52,7 +52,7 @@ RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
 /// <summary>
 /// Try to decode a UTF-16 character.
 /// </summary>
-/// <param name="cEncoded">
+/// <param name="pEncoded">
 /// A pointer to a zero-terminated string. This function will attempt to decode the first character.
 /// </param>
 /// <param name="pDecoded">
