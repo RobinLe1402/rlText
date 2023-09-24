@@ -6,14 +6,14 @@
 
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
-	const rlText_ByteChar  *szUTF8,
-		  rlText_UTF16Char *pBuf,
-		  rlText_Count      iBufSize
+	const char        *szUTF8,
+	      char16_t    *pBuf,
+	      rlText_Count iBufSize
 )
 {
-	rlText_Count     iResult    = 0;
-	rlText_UTF32Char ch         = 0;
-	rlText_Unsigned  iReadBytes = 0;
+	char32_t        ch         = 0;
+	rlText_Count    iResult    = 0;
+	rlText_Unsigned iReadBytes = 0;
 
 	if (!pBuf || !iBufSize)
 	{
@@ -82,14 +82,14 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 }
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
-	const rlText_UTF16Char *szUTF16,
-		  rlText_ByteChar  *pBuf,
-		  rlText_Count      iBufSize
+	const char16_t    *szUTF16,
+		  char        *pBuf,
+		  rlText_Count iBufSize
 )
 {
-	rlText_Count     iResult    = 0;
-	rlText_UTF32Char ch         = 0;
-	rlText_Unsigned  iReadWords = 0;
+	char32_t        ch         = 0;
+	rlText_Count    iResult    = 0;
+	rlText_Unsigned iReadWords = 0;
 
 	if (!pBuf || !iBufSize)
 	{

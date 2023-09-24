@@ -8,16 +8,13 @@
 std::wstring UTF8toUTF16(const char *szUTF8) noexcept
 {
 	std::wstring sResult;
-	const auto iRequiredBufSize = rlText_UTF8toUTF16((const rlText_ByteChar *)szUTF8, 0, 0);
+	const auto iRequiredBufSize = rlText_UTF8toUTF16(szUTF8, 0, 0);
 	
 	if (!iRequiredBufSize)
 		return sResult;
 
 	sResult.resize(iRequiredBufSize - 1);
-	rlText_UTF8toUTF16(
-		(const rlText_ByteChar *)szUTF8,
-		(rlText_UTF16Char *)sResult.data(),
-		iRequiredBufSize);
+	rlText_UTF8toUTF16(szUTF8, reinterpret_cast<char16_t *>(sResult.data()), iRequiredBufSize);
 
 	return sResult;
 }
@@ -31,18 +28,20 @@ bool ByteOrderFlipNecessary(rlText_Encoding iEndianFlag) noexcept
 		 (!bHostIsBigEndian && iEndianFlag == RLTEXT_FILEENCODING_FLAG_BIG_ENDIAN));
 }
 
-rlText_UTF16Char FlipByteOrder(rlText_UTF16Char ch) noexcept
-{
-	return (ch >> 8) | (ch << 8);
-}
-
-rlText_UTF32Char FlipByteOrder(rlText_UTF32Char ch) noexcept
+char16_t FlipByteOrder(char16_t ch) noexcept
 {
 	return
-		((ch >> 24)) |
-		((ch >> 8) & 0x0000FF00) |
-		((ch << 8) & 0x00FF0000) |
-		((ch << 24));
+		((ch >> 8) & 0x00FF) |
+		((ch << 8) & 0xFF00);
+}
+
+char32_t FlipByteOrder(char32_t ch) noexcept
+{
+	return
+		((ch >> 24) & 0x000000FF) |
+		((ch >> 8 ) & 0x0000FF00) |
+		((ch << 8 ) & 0x00FF0000) |
+		((ch << 24) & 0xFF000000);
 }
 
 unsigned BOMLen(rlText_Encoding iEncoding) noexcept

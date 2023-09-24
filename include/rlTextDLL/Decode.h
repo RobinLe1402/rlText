@@ -25,8 +25,8 @@
 /// If the function fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
-	rlText_ByteChar   cEncoded,
-	rlText_UTF32Char *pDecoded
+	char      cEncoded,
+	char32_t *pDecoded
 );
 
 /// <summary>
@@ -45,8 +45,8 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
 /// If the function fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
-	const rlText_ByteChar  *pEncoded,
-	      rlText_UTF32Char *pDecoded
+	const char     *pEncoded,
+	      char32_t *pDecoded
 );
 
 /// <summary>
@@ -65,8 +65,8 @@ RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
 /// If the function fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF16(
-	const rlText_UTF16Char *pEncoded,
-	      rlText_UTF32Char *pDecoded
+	const char16_t *pEncoded,
+	      char32_t *pDecoded
 );
 
 

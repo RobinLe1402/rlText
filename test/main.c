@@ -20,9 +20,9 @@ unsigned PrintHex(unsigned long iVal, unsigned iDigits)
 	return iResult;
 }
 
-unsigned PrintHex_8(rlText_ByteChar   c) { return PrintHex(c, 2); }
-unsigned PrintHex_16(rlText_UTF16Char c) { return PrintHex(c, 4); }
-unsigned PrintHex_32(rlText_UTF32Char c) { return PrintHex(c, 8); }
+unsigned PrintHex_8 (char     c) { return PrintHex(c, 2); }
+unsigned PrintHex_16(char16_t c) { return PrintHex(c, 4); }
+unsigned PrintHex_32(char32_t c) { return PrintHex(c, 8); }
 
 void PadWithSpaces(unsigned iCountOutOf12)
 {
@@ -34,11 +34,11 @@ void PadWithSpaces(unsigned iCountOutOf12)
 	}
 }
 
-int test(rlText_UTF32Char ch, const char *szCharDescr)
+int test(char32_t ch, const char *szCharDescr)
 {
-	rlText_UTF32Char cDecoded;
+	char32_t cDecoded;
 
-	rlText_ByteChar       c;
+	char                  c;
 	rlText_UTF8Codepoint  u8;
 	rlText_UTF16Codepoint u16;
 	int iResult = 1;
@@ -93,7 +93,7 @@ int test(rlText_UTF32Char ch, const char *szCharDescr)
 		PadWithSpaces(iOutputChars);
 
 
-		rlText_ByteChar u8Buffered[5];
+		char u8Buffered[5];
 		memset(u8Buffered, 0, sizeof(u8Buffered));
 		memcpy_s(u8Buffered, sizeof(u8Buffered, u8), u8.ch, sizeof(u8.ch));
 
@@ -123,7 +123,7 @@ int test(rlText_UTF32Char ch, const char *szCharDescr)
 		}
 		PadWithSpaces(iOutputChars);
 
-		rlText_UTF16Char u16Buffered[3];
+		char16_t u16Buffered[3];
 		memset(u16Buffered, 0, sizeof(u16Buffered));
 		memcpy_s(u16Buffered, sizeof(u16Buffered, u16), u16.ch, sizeof(u16.ch));
 
@@ -245,21 +245,19 @@ int main(int argc, char* argv[])
 
 	printf("\nTrying to convert a UTF-16 string to UTF-8 and back...\n");
 
-	const rlText_UTF16Char szUTF16[] = u"TEST\n\xC4\xD6\xDC \U0001F600";
+	const char16_t szUTF16[] = u"TEST\n\xC4\xD6\xDC \U0001F600";
 
 	const rlText_Count iReqSize_UTF8 = rlText_UTF16toUTF8(szUTF16, 0, 0);
-	rlText_ByteChar *szUTF8_converted =
-		(rlText_ByteChar *)malloc(iReqSize_UTF8);
+	char *szUTF8_converted           = (char *)malloc(iReqSize_UTF8);
 
 	if (iReqSize_UTF8 != rlText_UTF16toUTF8(szUTF16, szUTF8_converted, iReqSize_UTF8))
 		printf("  WARNING: UTF16toUTF8 wrote less data than it previously returned as required.\n");
 
 
 	const rlText_Count iReqSize_UTF16 = rlText_UTF8toUTF16(szUTF8_converted, 0, 0);
-	rlText_UTF16Char *szUTF16_converted =
-		(rlText_UTF16Char *)malloc(iReqSize_UTF16 * sizeof(rlText_UTF16Char));
+	char16_t *szUTF16_converted = (char16_t *)malloc(iReqSize_UTF16 * sizeof(char16_t));
 
-	if (iReqSize_UTF16 * sizeof(rlText_UTF16Char) != sizeof(szUTF16))
+	if (iReqSize_UTF16 * sizeof(char16_t) != sizeof(szUTF16))
 		printf("  WARNING: "
 			"UTF8toUTF16 returned a required size not equal to the original string.\n");
 	if (iReqSize_UTF16 != rlText_UTF8toUTF16(szUTF8_converted, szUTF16_converted, iReqSize_UTF16))

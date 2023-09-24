@@ -33,9 +33,9 @@
 /// is not large enough to hold the 2nd surrogate, the 1st surrogate is not written either.
 /// </returns>
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
-	const rlText_ByteChar  *szUTF8,
-	      rlText_UTF16Char *pBuf,
-	      rlText_Count      iBufSize
+	const char        *szUTF8,
+	      char16_t    *pBuf,
+	      rlText_Count iBufSize
 );
 
 /// <summary>
@@ -61,9 +61,9 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 /// not written either.
 /// </returns>
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
-	const rlText_UTF16Char *szUTF16,
-		  rlText_ByteChar  *pBuf,
-		  rlText_Count      iBufSize
+	const char16_t    *szUTF16,
+	      char        *pBuf,
+	      rlText_Count iBufSize
 );
 
 

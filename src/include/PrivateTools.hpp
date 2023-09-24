@@ -26,9 +26,9 @@ std::wstring UTF8toUTF16(const char *szUTF8) noexcept;
 bool ByteOrderFlipNecessary(rlText_Encoding iEndianFlag) noexcept;
 
 
-rlText_UTF16Char FlipByteOrder(rlText_UTF16Char ch) noexcept;
+char16_t FlipByteOrder(char16_t ch) noexcept;
 
-rlText_UTF32Char FlipByteOrder(rlText_UTF32Char ch) noexcept;
+char32_t FlipByteOrder(char32_t ch) noexcept;
 
 unsigned BOMLen(rlText_Encoding iEncoding) noexcept;
 

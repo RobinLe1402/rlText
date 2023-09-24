@@ -13,7 +13,7 @@
 /// <summary>
 /// A table of the Unicode values of values 0x80 through 0x9F of Codepage 1252.
 /// </summary>
-constexpr rlText_UTF32Char oCharsCP1252[] =
+constexpr char32_t oCharsCP1252[] =
 {
 	L'\u20AC', L'\uFFFD', L'\u201A', L'\u0192', L'\u201E', L'\u2026', L'\u2020', L'\u2021',
 	L'\u02C6', L'\u2030', L'\u0160', L'\u2039', L'\u0152', L'\uFFFD', L'\u017D', L'\uFFFD',

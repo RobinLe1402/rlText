@@ -6,24 +6,34 @@
 
 
 
-typedef int                rlText_Bool;
-typedef unsigned           rlText_Unsigned;
-typedef unsigned char      rlText_ByteChar;
-typedef unsigned short     rlText_UTF16Char;
-typedef unsigned           rlText_UTF32Char;
-typedef unsigned long long rlText_Count;
+#include <stdint.h>
+#ifndef __cplusplus 
+// C doesn't have static_assert, bool and char16_t/char32_t built-in.
+// To use those, the following headers are required.
+#include <assert.h>  // static_assert
+#include <stdbool.h> // bool
+#include <uchar.h>   // char16_t, char32_t
+#endif
+
+static_assert(sizeof(char16_t) == 2, "char16_t is not 2 bytes big => cannot compile rlText");
+static_assert(sizeof(char32_t) == 4, "char32_t is not 4 bytes big => cannot compile rlText");
+
+
+typedef uint32_t rlText_Bool;
+typedef uint32_t rlText_Unsigned;
+typedef uint64_t rlText_Count;
 
 
 typedef struct
 {
-	rlText_UTF16Char ch[2];
-	unsigned short   count;
+	char16_t ch[2];
+	uint16_t count;
 } rlText_UTF16Codepoint;
 
 typedef struct
 {
-	rlText_ByteChar ch[4];
-	unsigned char   count;
+	char    ch[4];
+	uint8_t count;
 } rlText_UTF8Codepoint;
 
 

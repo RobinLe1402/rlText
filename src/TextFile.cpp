@@ -69,7 +69,7 @@ namespace
 
 	void AppendUTF8Codepoint(std::string &sDest, const rlText_UTF8Codepoint &cp)
 	{
-		rlText_ByteChar sz[5] =
+		char sz[5] =
 		{
 			cp.ch[0],
 			cp.ch[1],
@@ -122,10 +122,10 @@ TextFile *TextFile::Open(const char *szFilepath, rlText_Encoding iEncoding) noex
 	file.close();
 	const union DataPtr
 	{
-		rlText_ByteChar  *pByte;
-		rlText_UTF16Char *pU16;
-		rlText_UTF32Char *pU32;
-	} fileData = { up_oFileData.get() };
+		char     *pByte;
+		char16_t *pU16;
+		char32_t *pU32;
+	} fileData = { reinterpret_cast<char *>(up_oFileData.get()) };
 
 
 	const bool bFlipByteOrder =
@@ -136,7 +136,7 @@ TextFile *TextFile::Open(const char *szFilepath, rlText_Encoding iEncoding) noex
 	std::string sUTF8;
 	sUTF8.reserve(iFilesize); // sufficient, it's very unlikely that UTF-8 > current encoding
 
-	rlText_UTF32Char ch;
+	char32_t ch;
 	size_t iRemainingBytes = iFilesize;
 	rlText_UTF8Codepoint cp;
 	switch (iEncoding)
@@ -167,7 +167,7 @@ TextFile *TextFile::Open(const char *szFilepath, rlText_Encoding iEncoding) noex
 	case RLTEXT_FILEENCODING_UTF16BE:
 	case RLTEXT_FILEENCODING_UTF16LE:
 	{
-		const auto iCharCount = iFilesize / sizeof(rlText_UTF16Char);
+		const auto iCharCount = iFilesize / sizeof(char16_t);
 		if (bFlipByteOrder)
 		{
 			for (size_t i = 0; i < iCharCount; ++i)
@@ -195,7 +195,7 @@ TextFile *TextFile::Open(const char *szFilepath, rlText_Encoding iEncoding) noex
 	case RLTEXT_FILEENCODING_UTF32BE:
 	case RLTEXT_FILEENCODING_UTF32LE:
 	{
-		const auto iCharCount = iFilesize / sizeof(rlText_UTF32Char);
+		const auto iCharCount = iFilesize / sizeof(char32_t);
 		if (bFlipByteOrder)
 		{
 			for (size_t i = 0; i < iCharCount; ++i)
@@ -292,22 +292,22 @@ bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
 
 	const auto sText = getAsText(bTrailingLinebreak);
 
-	std::function<void(rlText_UTF32Char)> fnWriteChar;
+	std::function<void(char32_t)> fnWriteChar;
 	switch (iEncoding)
 	{
 	case RLTEXT_FILEENCODING_ASCII:
-		fnWriteChar = [&](rlText_UTF32Char ch)
+		fnWriteChar = [&](char32_t ch)
 		{
-			rlText_ByteChar chASCII;
+			char chASCII;
 			rlText_EncodeASCII(ch, &chASCII);
 			file.write((const char*)&chASCII, 1);
 		};
 		break;
 
 	case RLTEXT_FILEENCODING_CP1252:
-		fnWriteChar = [&](rlText_UTF32Char ch)
+		fnWriteChar = [&](char32_t ch)
 		{
-			rlText_ByteChar chCP1252;
+			char chCP1252;
 			rlText_EncodeCP1252(ch, &chCP1252);
 			file.write((const char*)&chCP1252, 1);
 		};
@@ -321,7 +321,7 @@ bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
 		return true;
 
 	case RLTEXT_FILEENCODING_UTF16BE:
-		fnWriteChar = [&](rlText_UTF32Char ch)
+		fnWriteChar = [&](char32_t ch)
 		{
 			rlText_UTF16Codepoint cp;
 			rlText_EncodeUTF16(ch, &cp);
@@ -337,12 +337,12 @@ bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
 					cp.ch[0] = FlipByteOrder(cp.ch[0]);
 			}
 
-			file.write((const char*)cp.ch, cp.count * sizeof(rlText_UTF16Char));
+			file.write((const char*)cp.ch, cp.count * sizeof(char16_t));
 		};
 		break;
 
 	case RLTEXT_FILEENCODING_UTF16LE:
-		fnWriteChar = [&](rlText_UTF32Char ch)
+		fnWriteChar = [&](char32_t ch)
 		{
 			rlText_UTF16Codepoint cp;
 			rlText_EncodeUTF16(ch, &cp);
@@ -358,12 +358,12 @@ bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
 					cp.ch[0] = FlipByteOrder(cp.ch[0]);
 			}
 
-			file.write((const char*)cp.ch, cp.count * sizeof(rlText_UTF16Char));
+			file.write((const char*)cp.ch, cp.count * sizeof(char16_t));
 		};
 		break;
 
 	case RLTEXT_FILEENCODING_UTF32BE:
-		fnWriteChar = [&](rlText_UTF32Char ch)
+		fnWriteChar = [&](char32_t ch)
 		{
 			if constexpr (!bHostIsBigEndian)
 				ch = FlipByteOrder(ch);
@@ -372,7 +372,7 @@ bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
 		break;
 
 	case RLTEXT_FILEENCODING_UTF32LE:
-		fnWriteChar = [&](rlText_UTF32Char ch)
+		fnWriteChar = [&](char32_t ch)
 		{
 			if constexpr (bHostIsBigEndian)
 				ch = FlipByteOrder(ch);
@@ -382,10 +382,10 @@ bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
 	}
 
 
-	rlText_UTF32Char ch;
+	char32_t ch;
 	for (size_t i = 0; i < sText.length(); ++i)
 	{
-		i += (size_t)rlText_DecodeUTF8((const rlText_ByteChar *)sText.c_str() + i, &ch) - 1;
+		i += (size_t)rlText_DecodeUTF8(sText.c_str() + i, &ch) - 1;
 		fnWriteChar(ch);
 	}
 

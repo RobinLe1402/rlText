@@ -8,15 +8,15 @@
 
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeASCII(
-	rlText_UTF32Char ch,
-	rlText_ByteChar *pDest
+	char32_t ch,
+	char    *pDest
 )
 {
 	bool bResult = false;
 
 	if (ch <= 0x7F)
 	{
-		*pDest  = rlText_ByteChar(ch);
+		*pDest  = char(ch);
 		bResult = true;
 	}
 	
@@ -26,8 +26,8 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeASCII(
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeCP1252(
-	rlText_UTF32Char ch,
-	rlText_ByteChar *pDest
+	char32_t ch,
+	char    *pDest
 )
 {
 	bool bResult = false;
@@ -35,7 +35,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeCP1252(
 	if (ch < 0x80 || (ch >= 0xA0 && ch < 0xFF))
 	{
 		bResult = true;
-		*pDest  = rlText_ByteChar(ch);
+		*pDest  = char(ch);
 	}
 	else if (ch > 0xFF)
 	{
@@ -44,7 +44,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeCP1252(
 			if (ch == oCharsCP1252[i])
 			{
 				bResult = true;
-				*pDest  = rlText_ByteChar(0x80 + i);
+				*pDest  = char(0x80 + i);
 				break;
 			}
 		}
@@ -56,7 +56,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeCP1252(
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF8(
-	rlText_UTF32Char      ch,
+	char32_t              ch,
 	rlText_UTF8Codepoint *pDest)
 {
 	bool bResult = true;
@@ -69,28 +69,28 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF8(
 	else if (ch < 0x7F) // 7 bit
 	{
 		pDest->count = 1;
-		pDest->ch[0] = rlText_ByteChar(ch);
+		pDest->ch[0] = char(ch);
 	}
 	else if (ch < 0x7FF) // 5 + 6 = 11 bit
 	{
 		pDest->count = 2;
-		pDest->ch[0] = rlText_ByteChar(0b1100'0000 | (ch >> 6));
-		pDest->ch[1] = rlText_ByteChar(0b1000'0000 | (ch & 0x3F));
+		pDest->ch[0] = char(0b1100'0000 | (ch >> 6));
+		pDest->ch[1] = char(0b1000'0000 | (ch & 0x3F));
 	}
 	else if (ch < 0xFFFF) // 4 + 6 + 6 = 16 bit
 	{
 		pDest->count = 3;
-		pDest->ch[0] = rlText_ByteChar(0b1110'0000 | (ch >> 12));
-		pDest->ch[1] = rlText_ByteChar(0b1000'0000 | ((ch >> 6)) & 0x3F);
-		pDest->ch[2] = rlText_ByteChar(0b1000'0000 | (ch        & 0x3F));
+		pDest->ch[0] = char(0b1110'0000 | ( ch >> 12));
+		pDest->ch[1] = char(0b1000'0000 | ((ch >> 6 )) & 0x3F);
+		pDest->ch[2] = char(0b1000'0000 | ( ch         & 0x3F));
 	}
 	else if (ch < 0x1FFFFF) // 3 + 6 + 6 + 6 = 21 bit
 	{
 		pDest->count = 4;
-		pDest->ch[0] = rlText_ByteChar(0b1111'0000 |  (ch >> 18));
-		pDest->ch[1] = rlText_ByteChar(0b1000'0000 | ((ch >> 12)) & 0x3F);
-		pDest->ch[2] = rlText_ByteChar(0b1000'0000 | ((ch >> 6))  & 0x3F);
-		pDest->ch[3] = rlText_ByteChar(0b1000'0000 | (ch         & 0x3F));
+		pDest->ch[0] = char(0b1111'0000 | ( ch >> 18));
+		pDest->ch[1] = char(0b1000'0000 | ((ch >> 12) & 0x3F));
+		pDest->ch[2] = char(0b1000'0000 | ((ch >> 6)  & 0x3F));
+		pDest->ch[3] = char(0b1000'0000 | ( ch        & 0x3F));
 	}
 	else
 		bResult = false;
@@ -100,15 +100,15 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF8(
 	{
 		// set to U+FFFD
 		pDest->count = 3;
-		pDest->ch[0] = 0xEF;
-		pDest->ch[0] = 0xBF;
-		pDest->ch[0] = 0xBD;
+		pDest->ch[0] = char(0xEF);
+		pDest->ch[0] = char(0xBF);
+		pDest->ch[0] = char(0xBD);
 	}
 	return bResult;
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF16(
-	rlText_UTF32Char       ch,
+	char32_t               ch,
 	rlText_UTF16Codepoint *pDest
 )
 {
@@ -122,14 +122,14 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF16(
 	else if (ch < 0x10000)
 	{
 		pDest->count = 1;
-		pDest->ch[0] = rlText_UTF16Char(ch);
+		pDest->ch[0] = char16_t(ch);
 	}
 	else if (ch < 0xFFFFF)
 	{
 		ch -= 0x10000;
 		pDest->count = 2;
-		pDest->ch[0] = rlText_UTF16Char(0b110110'00'00000000 | (ch >> 10));
-		pDest->ch[1] = rlText_UTF16Char(0b110111'00'00000000 | (ch & 0x3FF));
+		pDest->ch[0] = char16_t(0b110110'00'00000000 | (ch >> 10));
+		pDest->ch[1] = char16_t(0b110111'00'00000000 | (ch & 0x3FF));
 	}
 	else
 		bResult = false;
@@ -139,7 +139,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF16(
 	{
 		// set to U+FFFD
 		pDest->count = 1;
-		pDest->ch[0] = rlText_ByteChar(L'\xFFFD');
+		pDest->ch[0] = char16_t(L'\xFFFD');
 	}
 	return bResult;
 }

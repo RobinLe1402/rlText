@@ -23,11 +23,11 @@ unsigned ReadUpToXBytesFromFile(std::ifstream &file, size_t iFileSize,
 	return iBytesToRead;
 }
 
-rlText_UTF32Char ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool bFlipByteOrder,
+char32_t ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool bFlipByteOrder,
 	size_t iFileSize)
 {
-	rlText_UTF32Char chResult = 0;
-	int iUnusedReadBytes      = 0;
+	char32_t chResult         = 0;
+	int      iUnusedReadBytes = 0;
 
 	switch (iEncoding & RLTEXT_FILEENCODING_MASK_ENCODING)
 	{
@@ -54,22 +54,21 @@ rlText_UTF32Char ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool 
 	case RLTEXT_FILEENCODING_UTF8:
 	{
 		char c[4]{};
-		const int iRead = ReadUpToXBytesFromFile(file, iFileSize, 4, c);
-		iUnusedReadBytes = iRead -
-			rlText_DecodeUTF8(reinterpret_cast<const rlText_ByteChar *>(c), &chResult);
+		const int iRead  = ReadUpToXBytesFromFile(file, iFileSize, 4, c);
+		iUnusedReadBytes = iRead - rlText_DecodeUTF8(c, &chResult);
 		break;
 	}
 
 	case RLTEXT_FILEENCODING_UTF16:
 	{
-		rlText_UTF16Char chBuf[2]{};
+		char16_t chBuf[2]{};
 		const int iRead = (int)ReadUpToXBytesFromFile(file, iFileSize, sizeof(chBuf), chBuf);
 		if (bFlipByteOrder)
 		{
 			chBuf[0] = FlipByteOrder(chBuf[0]);
 			chBuf[1] = FlipByteOrder(chBuf[1]);
 		}
-		iUnusedReadBytes = iRead - rlText_DecodeUTF16(chBuf, &chResult) * sizeof(rlText_UTF16Char);
+		iUnusedReadBytes = iRead - rlText_DecodeUTF16(chBuf, &chResult) * sizeof(char16_t);
 		break;
 	}
 		
@@ -103,9 +102,9 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 
 #ifdef _WIN32
 	// convert filename from UTF-8 to UTF-16
-	const auto iReqSize = rlText_UTF8toUTF16((const rlText_ByteChar *)szFilepath, 0, 0);
-	auto up_szUTF16 = std::make_unique<rlText_UTF16Char[]>(iReqSize);
-	rlText_UTF8toUTF16((const rlText_ByteChar *)szFilepath, up_szUTF16.get(), iReqSize);
+	const auto iReqSize = rlText_UTF8toUTF16(szFilepath, 0, 0);
+	auto up_szUTF16     = std::make_unique<char16_t[]>(iReqSize);
+	rlText_UTF8toUTF16(szFilepath, up_szUTF16.get(), iReqSize);
 
 	std::ifstream file((wchar_t *)up_szUTF16.get(), std::ios::binary);
 #else
@@ -212,61 +211,53 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 
 		// check the entire file for illegal characters
 
-		rlText_ByteChar oBuf[5]{}; // maximum byte count per codepoint is 4
-		std::function<unsigned(const rlText_ByteChar *)> fnDecode;
-		rlText_UTF32Char chDummy = 0;
+		char oBuf[5]{}; // maximum byte count per codepoint is 4
+		std::function<unsigned(const char *)> fnDecode;
+		char32_t chDummy = 0;
 
 		// assign a decoding lambda
 		switch (iEncID)
 		{
 		case RLTEXT_FILEENCODING_UTF8:
-			fnDecode = [&](const rlText_ByteChar *pBuf) -> unsigned
+			fnDecode = [&](const char *pBuf) -> unsigned
 			{
 				return rlText_DecodeUTF8(pBuf, &chDummy);
 			};
 			break;
 			
 		case RLTEXT_FILEENCODING_UTF16:
-			fnDecode = [&](const rlText_ByteChar *pBuf) -> unsigned
+			fnDecode = [&](const char *pBuf) -> unsigned
 			{
-				rlText_UTF16Char chBuf[2]{};
+				char16_t chBuf[2]{};
 				if (!bFlipByteOrder)
 				{
-					chBuf[0] = (rlText_UTF16Char(pBuf[0]) << 8) | pBuf[1];
-					chBuf[1] = (rlText_UTF16Char(pBuf[2]) << 8) | pBuf[3];
+					chBuf[0] = (char16_t(pBuf[0]) << 8) | pBuf[1];
+					chBuf[1] = (char16_t(pBuf[2]) << 8) | pBuf[3];
 				}
 				else
 				{
-					chBuf[0] = (rlText_UTF16Char(pBuf[1]) << 8) | pBuf[0];
-					chBuf[1] = (rlText_UTF16Char(pBuf[3]) << 8) | pBuf[2];
+					chBuf[0] = (char16_t(pBuf[1]) << 8) | pBuf[0];
+					chBuf[1] = (char16_t(pBuf[3]) << 8) | pBuf[2];
 				}
 
-				return rlText_DecodeUTF16(chBuf, &chDummy) * sizeof(rlText_UTF16Char);
+				return rlText_DecodeUTF16(chBuf, &chDummy) * sizeof(char16_t);
 			};
 			break;
 
 		case RLTEXT_FILEENCODING_UTF32:
-			fnDecode = [&](const rlText_ByteChar *pBuf) -> unsigned
+			fnDecode = [&](const char *pBuf) -> unsigned
 			{
-				rlText_UTF32Char ch;
+				char32_t ch;
 
 				if (!bFlipByteOrder)
-					ch =
-						(rlText_UTF32Char(pBuf[0]) << 24) |
-						(rlText_UTF32Char(pBuf[1]) << 16) |
-						(rlText_UTF32Char(pBuf[2]) << 8 ) |
-						                  pBuf[3];
+					ch = *reinterpret_cast<const char32_t *>(pBuf);
 				else
-					ch =
-						(rlText_UTF32Char(pBuf[3]) << 24) |
-						(rlText_UTF32Char(pBuf[2]) << 16) |
-						(rlText_UTF32Char(pBuf[1]) << 8)  |
-						                  pBuf[0];
+					ch = FlipByteOrder(*reinterpret_cast<const char32_t *>(pBuf));
 
 				if (rlText_IsNoncharacter(ch))
 					return 0;
 				else
-					return sizeof(rlText_UTF32Char);
+					return sizeof(char32_t);
 			};
 			break;
 
@@ -330,7 +321,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 
 		bool bNonASCII  = false;
 		bool bValidUTF8 = true;
-		rlText_UTF32Char ch = 0;
+		char32_t ch     = 0;
 
 		while (!file.eof() && file.peek() != EOF)
 		{
@@ -349,8 +340,8 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 						!file.read(c + 1, 1).eof() &&
 						(c[1] & 0xC0) == 0x80 &&
 						!rlText_IsNoncharacter(
-							(rlText_UTF32Char(c[0] & 0x1F) << 6) |
-											 (c[1] & 0x3F)
+							(char32_t(c[0] & 0x1F) << 6) |
+							         (c[1] & 0x3F)
 						);
 				}
 				else if ((c[0] & 0x10) == 0) // 0b1110 XXXX --> three UTF-8 codeunits
@@ -360,9 +351,9 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 						(c[1] & 0xC0) == 0x80 &&
 						(c[2] & 0xC0) == 0x80 &&
 						!rlText_IsNoncharacter(
-							(rlText_UTF32Char(c[0] & 0x0F) << 12) |
-							(rlText_UTF32Char(c[1] & 0x3F) << 6) |
-											  c[2] & 0x3F
+							(char32_t(c[0] & 0x0F) << 12) |
+							(char32_t(c[1] & 0x3F) << 6 ) |
+							          c[2] & 0x3F
 						);
 				}
 				else if ((c[0] & 0x08) == 0) // 0b1111 0XXX --> four UTF-8 codeunits
@@ -373,10 +364,10 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 						(c[2] & 0xC0) == 0x80 &&
 						(c[3] & 0xC0) == 0x80 &&
 						!rlText_IsNoncharacter(
-							(rlText_UTF32Char(c[0] & 0x07) << 18) |
-							(rlText_UTF32Char(c[1] & 0x3F) << 12) |
-							(rlText_UTF32Char(c[2] & 0x3F) << 6) |
-											  c[3] & 0x3F
+							(char32_t(c[0] & 0x07) << 18) |
+							(char32_t(c[1] & 0x3F) << 12) |
+							(char32_t(c[2] & 0x3F) << 6 ) |
+							          c[3] & 0x3F
 						);
 				}
 				else
@@ -403,10 +394,11 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 		file.clear();
 		file.seekg(BOMLen(iEncoding), std::ios::beg);
 
-		rlText_UTF32Char chCur = 0;
-		rlText_UTF32Char chPrv = 0;
+		char32_t chCur = 0;
+		char32_t chPrv = 0;
 		const bool bFlipByteOrder =
 			ByteOrderFlipNecessary(iEncoding & RLTEXT_FILEENCODING_MASK_FLAG_ENDIAN);
+
 		while (file.peek() != EOF)
 		{
 			++pStatistics->iCharCount;

@@ -4,26 +4,28 @@
 #include "include/CP1252.hpp"
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
-	rlText_ByteChar   cEncoded,
-	rlText_UTF32Char *pDecoded
+	char      cEncoded,
+	char32_t *pDecoded
 )
 {
-	if (cEncoded >= 0x80 && cEncoded < 0xA0)
-		*pDecoded = oCharsCP1252[cEncoded - 0x80];
+	const unsigned char cEncodedU = cEncoded;
+
+	if (cEncodedU >= 0x80 && cEncodedU < 0xA0)
+		*pDecoded = oCharsCP1252[cEncodedU - 0x80];
 	else
-		*pDecoded = cEncoded;
+		*pDecoded = cEncodedU;
 
 	return *pDecoded != 0xFFFD;
 }
 
 RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
-	const rlText_ByteChar  *pEncoded,
-	      rlText_UTF32Char *pDecoded
+	const char     *pEncoded,
+	      char32_t *pDecoded
 )
 {
 	rlText_Unsigned iResult = 0;
 
-	rlText_ByteChar c = *pEncoded;
+	auto c = *pEncoded;
 	if ((c & 0x80) == 0)
 	{
 		iResult   = 1;
@@ -77,20 +79,20 @@ RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
 }
 
 RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF16(
-	const rlText_UTF16Char *pEncoded,
-	      rlText_UTF32Char *pDecoded
+	const char16_t *pEncoded,
+	      char32_t *pDecoded
 )
 {
 	rlText_Unsigned iResult = 0;
 
-	rlText_UTF16Char c = *pEncoded;
+	auto c = *pEncoded;
 
 	if ((c & 0xFC00) == 0xD800)
 	{
 		iResult = ((pEncoded[1] & 0xFC00) == 0xDC00) ? 2 : 0;
 		if (iResult)
 		{
-			*pDecoded = (rlText_UTF32Char(c & 0x3FF) << 10) | (pEncoded[1] & 0x3FF);
+			*pDecoded = (char32_t(c & 0x3FF) << 10) | (pEncoded[1] & 0x3FF);
 			*pDecoded += 0x10000;
 		}
 	}
