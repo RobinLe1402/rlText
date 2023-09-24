@@ -19,7 +19,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
 }
 
 RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
-	const char     *pEncoded,
+	const char8_t  *pEncoded,
 	      char32_t *pDecoded
 )
 {

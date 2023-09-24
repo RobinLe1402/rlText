@@ -6,7 +6,7 @@
 
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
-	const char        *szUTF8,
+	const char8_t     *szUTF8,
 	      char16_t    *pBuf,
 	      rlText_Count iBufSize
 )
@@ -55,7 +55,7 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 
 			if (ch < 0x10000)
 			{
-				*pBuf = ch;
+				*pBuf = char16_t(ch);
 
 				pBuf    += 1;
 				iResult += 1;
@@ -83,7 +83,7 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
 	const char16_t    *szUTF16,
-		  char        *pBuf,
+		  char8_t     *pBuf,
 		  rlText_Count iBufSize
 )
 {
@@ -135,7 +135,7 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
 
 			if (ch <= 0x7F) // single codeunit (7 bits)
 			{
-				*pBuf    = ch;
+				*pBuf    = char(ch);
 
 				pBuf    += 1;
 				iResult += 1;

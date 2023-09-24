@@ -69,7 +69,7 @@ namespace
 
 	void AppendUTF8Codepoint(std::string &sDest, const rlText_UTF8Codepoint &cp)
 	{
-		char sz[5] =
+		char8_t sz[5] =
 		{
 			cp.ch[0],
 			cp.ch[1],
@@ -84,7 +84,7 @@ namespace
 
 
 
-TextFile *TextFile::Open(const char *szFilepath, rlText_Encoding iEncoding) noexcept
+TextFile *TextFile::Open(const char8_t *szFilepath, rlText_Encoding iEncoding) noexcept
 {
 	if (!iEncoding)
 	{
@@ -274,7 +274,7 @@ TextFile *TextFile::Create(rlText_Linebreak iLinebreakType) noexcept
 	return pResult;
 }
 
-bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
+bool TextFile::saveToFile(const char8_t *szFilepath, rlText_Encoding iEncoding,
 	bool bTrailingLinebreak) const noexcept
 {
 	if (!CheckEncodingID(iEncoding, true))
@@ -317,7 +317,7 @@ bool TextFile::saveToFile(const char *szFilepath, rlText_Encoding iEncoding,
 		file.write("\xEF\xBB\xBF", 3);
 		[[fallthrough]];
 	case RLTEXT_FILEENCODING_UTF8:
-		file.write(sText.c_str(), sText.length());
+		file.write(reinterpret_cast<const char *>(sText.c_str()), sText.length());
 		return true;
 
 	case RLTEXT_FILEENCODING_UTF16BE:
@@ -448,13 +448,13 @@ rlText_Count TextFile::setLine(rlText_Count iLine, const char *szLine, bool bRep
 		}
 	}
 
-	std::vector<std::string> oNewLines;
+	std::vector<std::u8string> oNewLines;
 	oNewLines.reserve(iCount);
 
 	p = szLine;
 	while (*p)
 	{
-		std::string sLine;
+		std::u8string sLine;
 		// count the characters in the line
 		auto p2 = p;
 		iCount  = 0;
@@ -537,9 +537,9 @@ rlText_Count TextFile::getTotalLength() const noexcept
 	return iLen;
 }
 
-std::string TextFile::getAsText(bool bTrailingLinebreak) const noexcept
+std::u8string TextFile::getAsText(bool bTrailingLinebreak) const noexcept
 {
-	std::string s;
+	std::u8string s;
 	s.reserve(getTotalLength() - 1 + getLinebreakLen());
 
 	for (size_t iLine = 0; iLine < m_oLines.size(); ++iLine)

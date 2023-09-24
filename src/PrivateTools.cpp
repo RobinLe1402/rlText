@@ -5,7 +5,7 @@
 #endif
 
 #ifdef _WIN32
-std::wstring UTF8toUTF16(const char *szUTF8) noexcept
+std::wstring UTF8toUTF16(const char8_t *szUTF8) noexcept
 {
 	std::wstring sResult;
 	const auto iRequiredBufSize = rlText_UTF8toUTF16(szUTF8, 0, 0);

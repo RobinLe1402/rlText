@@ -7,16 +7,11 @@
 
 
 #include <stdint.h>
-#ifndef __cplusplus 
-// C doesn't have static_assert, bool and char16_t/char32_t built-in.
-// To use those, the following headers are required.
-#include <assert.h>  // static_assert
+
+#ifndef __cplusplus  // C
 #include <stdbool.h> // bool
 #include <uchar.h>   // char16_t, char32_t
 #endif
-
-static_assert(sizeof(char16_t) == 2, "char16_t is not 2 bytes big => cannot compile rlText");
-static_assert(sizeof(char32_t) == 4, "char32_t is not 4 bytes big => cannot compile rlText");
 
 
 typedef uint32_t rlText_Bool;
@@ -32,7 +27,11 @@ typedef struct
 
 typedef struct
 {
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+	char8_t ch[4];
+#else
 	char    ch[4];
+#endif
 	uint8_t count;
 } rlText_UTF8Codepoint;
 

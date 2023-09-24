@@ -53,7 +53,7 @@ char32_t ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool bFlipByt
 
 	case RLTEXT_FILEENCODING_UTF8:
 	{
-		char c[4]{};
+		char8_t c[4]{};
 		const int iRead  = ReadUpToXBytesFromFile(file, iFileSize, 4, c);
 		iUnusedReadBytes = iRead - rlText_DecodeUTF8(c, &chResult);
 		break;
@@ -91,7 +91,7 @@ char32_t ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool bFlipByt
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
-	const char                  *szFilepath,
+	const char8_t               *szFilepath,
 	rlText_Encoding             *pEncoding,
 	rlText_FileStatisticsStruct *pStatistics,
 	rlText_Flags1                iFlags
@@ -221,7 +221,17 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 		case RLTEXT_FILEENCODING_UTF8:
 			fnDecode = [&](const char *pBuf) -> unsigned
 			{
-				return rlText_DecodeUTF8(pBuf, &chDummy);
+				/*
+				I'm aware that by definition of the C++ standard, casting a char* to a char8_t* is
+				undefined behavior (see https://stackoverflow.com/a/57453713).
+
+				However, as char8_t is defined as having the "same size, signedness, and
+				alignment as unsigned char (and therefore, the same size and alignment as char
+				and signed char)", this should be safe.
+				*/
+				return rlText_DecodeUTF8(
+					reinterpret_cast<const char8_t *>(pBuf),
+					&chDummy);
 			};
 			break;
 			
@@ -435,7 +445,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 
 
 RLTEXT_API rlText_File RLTEXT_LIB rlText_FileOpen(
-	const char     *szFilepath,
+	const char8_t  *szFilepath,
 	rlText_Encoding iEncoding
 )
 {
@@ -449,7 +459,7 @@ RLTEXT_API rlText_File RLTEXT_LIB rlText_FileCreate(rlText_Linebreak iLinebreakS
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSave(
 	rlText_File     oFile,
-	const char     *szFilepath,
+	const char8_t  *szFilepath,
 	rlText_Encoding iEncoding,
 	rlText_Bool     bTrailingLinebreak
 )

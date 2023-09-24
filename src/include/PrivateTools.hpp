@@ -17,7 +17,7 @@
 
 #include <string>
 
-std::wstring UTF8toUTF16(const char *szUTF8) noexcept;
+std::wstring UTF8toUTF16(const char8_t *szUTF8) noexcept;
 
 #endif
 

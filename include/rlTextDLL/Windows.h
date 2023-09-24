@@ -33,7 +33,11 @@
 /// is not large enough to hold the 2nd surrogate, the 1st surrogate is not written either.
 /// </returns>
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+	const char8_t     *szUTF8,
+#else
 	const char        *szUTF8,
+#endif
 	      char16_t    *pBuf,
 	      rlText_Count iBufSize
 );
@@ -62,7 +66,11 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 /// </returns>
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
 	const char16_t    *szUTF16,
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+	      char8_t     *pBuf,
+#else
 	      char        *pBuf,
+#endif
 	      rlText_Count iBufSize
 );
 

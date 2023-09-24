@@ -45,7 +45,11 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_DecodeCP1252(
 /// If the function fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Unsigned RLTEXT_LIB rlText_DecodeUTF8(
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+	const char8_t  *pEncoded,
+#else
 	const char     *pEncoded,
+#endif
 	      char32_t *pDecoded
 );
 

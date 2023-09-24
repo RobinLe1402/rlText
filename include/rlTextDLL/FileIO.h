@@ -79,7 +79,11 @@ typedef struct
 /// If it fails, it returns zero.
 /// </returns>
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+	const char8_t               *szFilepath,
+#else
 	const char                  *szFilepath,
+#endif
 	rlText_Encoding             *pEncoding,
 	rlText_FileStatisticsStruct *pStatistics,
 	rlText_Flags1                iFlags
@@ -118,7 +122,11 @@ typedef struct
 /// Once you don't need it anymore, make sure to free it via <c>rlText_FileFree</c>.
 /// </returns>
 RLTEXT_API rlText_File RLTEXT_LIB rlText_FileOpen(
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+	const char8_t  *szFilepath,
+#else
 	const char     *szFilepath,
+#endif
 	rlText_Encoding iEncoding
 );
 
@@ -183,7 +191,11 @@ RLTEXT_API rlText_File RLTEXT_LIB rlText_FileCreate(rlText_Linebreak iLinebreakS
 /// </returns>
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSave(
 	rlText_File     oFile,
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+	const char8_t  *szFilepath,
+#else
 	const char     *szFilepath,
+#endif
 	rlText_Encoding iEncoding,
 	rlText_Bool     bTrailingLinebreak
 );
