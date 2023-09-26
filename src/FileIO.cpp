@@ -91,7 +91,7 @@ char32_t ReadCharFromFile(std::ifstream &file, unsigned iEncoding, bool bFlipByt
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
-	const char8_t               *szFilepath,
+	const RLTEXT_UTF8CHAR       *szFilepath,
 	rlText_Encoding             *pEncoding,
 	rlText_FileStatisticsStruct *pStatistics,
 	rlText_Flags1                iFlags
@@ -104,7 +104,8 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_GetFileInfo(
 	// convert filename from UTF-8 to UTF-16
 	const auto iReqSize = rlText_UTF8toUTF16(szFilepath, 0, 0);
 	auto up_szUTF16     = std::make_unique<char16_t[]>(iReqSize);
-	rlText_UTF8toUTF16(szFilepath, up_szUTF16.get(), iReqSize);
+	rlText_UTF8toUTF16(szFilepath, reinterpret_cast<RLTEXT_UTF16CHAR *>(up_szUTF16.get()),
+		iReqSize);
 
 	std::ifstream file((wchar_t *)up_szUTF16.get(), std::ios::binary);
 #else
@@ -458,14 +459,15 @@ RLTEXT_API rlText_File RLTEXT_LIB rlText_FileCreate(rlText_Linebreak iLinebreakS
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSave(
-	rlText_File     oFile,
-	const char8_t  *szFilepath,
-	rlText_Encoding iEncoding,
-	rlText_Bool     bTrailingLinebreak
+	rlText_File            oFile,
+	const RLTEXT_UTF8CHAR *szFilepath,
+	rlText_Encoding        iEncoding,
+	rlText_Bool            bTrailingLinebreak
 )
 {
 	const auto &obj = *(TextFile*)oFile;
-	return obj.saveToFile(szFilepath, iEncoding, bTrailingLinebreak);
+	return obj.saveToFile(reinterpret_cast<const char8_t *>(szFilepath), iEncoding,
+		bTrailingLinebreak);
 }
 
 RLTEXT_API void RLTEXT_LIB rlText_FileFree(rlText_File oFile)
@@ -479,10 +481,10 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetLineCount(rlText_File oFile)
 }
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetLine(
-	rlText_File  oFile,
-	rlText_Count iLine,
-	char        *pBuf,
-	rlText_Count iBufSize
+	rlText_File      oFile,
+	rlText_Count     iLine,
+	RLTEXT_UTF8CHAR *pBuf,
+	rlText_Count     iBufSize
 )
 {
 	const auto &obj = *(const TextFile*)oFile;
@@ -505,13 +507,13 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetLine(
 }
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileSetLine(
-	rlText_File  oFile,
-	rlText_Count iLine,
-	const char  *szLine,
-	rlText_Bool  bReplace
+	rlText_File            oFile,
+	rlText_Count           iLine,
+	const RLTEXT_UTF8CHAR *szLine,
+	rlText_Bool            bReplace
 )
 {
-	return (*(TextFile*)oFile).setLine(iLine, szLine, bReplace);
+	return (*(TextFile*)oFile).setLine(iLine, reinterpret_cast<const char8_t *>(szLine), bReplace);
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileDeleteLine(
@@ -536,9 +538,9 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSetLinebreakType(
 }
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetAsSingleString(
-	rlText_File  oFile,
-	char        *pBuf,
-	rlText_Count iBufSize
+	rlText_File      oFile,
+	RLTEXT_UTF8CHAR *pBuf,
+	rlText_Count     iBufSize
 )
 {
 	auto &obj = *(TextFile*)oFile;
@@ -558,8 +560,8 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_FileGetAsSingleString(
 }
 
 RLTEXT_API rlText_Bool RLTEXT_LIB rlText_FileSetAsSingleString(
-	rlText_File oFile,
-	const char *sz
+	rlText_File            oFile,
+	const RLTEXT_UTF8CHAR *sz
 )
 {
 	return (*(TextFile*)oFile).setText(sz);

@@ -67,7 +67,7 @@ namespace
 		}
 	}
 
-	void AppendUTF8Codepoint(std::string &sDest, const rlText_UTF8Codepoint &cp)
+	void AppendUTF8Codepoint(std::u8string &sDest, const rlText_UTF8Codepoint &cp)
 	{
 		char8_t sz[5] =
 		{
@@ -77,7 +77,7 @@ namespace
 			cp.ch[3],
 			0
 		};
-		sDest += (const char *)sz;
+		sDest += sz;
 	}
 
 }
@@ -133,7 +133,7 @@ TextFile *TextFile::Open(const char8_t *szFilepath, rlText_Encoding iEncoding) n
 
 	// convert the entire file to a single UTF-8 string
 
-	std::string sUTF8;
+	std::u8string sUTF8;
 	sUTF8.reserve(iFilesize); // sufficient, it's very unlikely that UTF-8 > current encoding
 
 	char32_t ch;
@@ -393,7 +393,7 @@ bool TextFile::saveToFile(const char8_t *szFilepath, rlText_Encoding iEncoding,
 	return true;
 }
 
-rlText_Count TextFile::setLine(rlText_Count iLine, const char *szLine, bool bReplace) noexcept
+rlText_Count TextFile::setLine(rlText_Count iLine, const char8_t *szLine, bool bReplace) noexcept
 {
 	if (bReplace && iLine >= m_oLines.size())
 		return false;
@@ -551,7 +551,7 @@ std::u8string TextFile::getAsText(bool bTrailingLinebreak) const noexcept
 	return s;
 }
 
-bool TextFile::setText(const char *sz) noexcept
+bool TextFile::setText(const RLTEXT_UTF8CHAR *sz) noexcept
 {
 	if (!*sz)
 	{

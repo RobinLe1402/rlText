@@ -11,6 +11,14 @@
 
 
 
+#ifdef _WIN32
+#define RLTEXT_UTF16CHAR wchar_t
+#else
+#define RLTEXT_UTF16CHAR char16_t
+#endif
+
+
+
 /// <summary>
 /// Convert a UTF-8 string to a UTF-16 string (for Win32 API function calls).
 /// </summary>
@@ -33,13 +41,9 @@
 /// is not large enough to hold the 2nd surrogate, the 1st surrogate is not written either.
 /// </returns>
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
-#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
-	const char8_t     *szUTF8,
-#else
-	const char        *szUTF8,
-#endif
-	      char16_t    *pBuf,
-	      rlText_Count iBufSize
+	const RLTEXT_UTF8CHAR  *szUTF8,
+		  RLTEXT_UTF16CHAR *pBuf,
+	      rlText_Count      iBufSize
 );
 
 /// <summary>
@@ -65,13 +69,9 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 /// not written either.
 /// </returns>
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
-	const char16_t    *szUTF16,
-#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
-	      char8_t     *pBuf,
-#else
-	      char        *pBuf,
-#endif
-	      rlText_Count iBufSize
+	const RLTEXT_UTF16CHAR *szUTF16,
+		  RLTEXT_UTF8CHAR  *pBuf,
+	      rlText_Count      iBufSize
 );
 
 

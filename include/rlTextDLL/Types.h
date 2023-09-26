@@ -19,6 +19,13 @@ typedef uint32_t rlText_Unsigned;
 typedef uint64_t rlText_Count;
 
 
+#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
+#define RLTEXT_UTF8CHAR char8_t
+#else
+#define RLTEXT_UTF8CHAR char
+#endif
+
+
 typedef struct
 {
 	char16_t ch[2];
@@ -27,12 +34,8 @@ typedef struct
 
 typedef struct
 {
-#if defined(__cplusplus) && __cplusplus >= 202002L // C++20
-	char8_t ch[4];
-#else
-	char    ch[4];
-#endif
-	uint8_t count;
+	RLTEXT_UTF8CHAR ch[4];
+	uint8_t         count;
 } rlText_UTF8Codepoint;
 
 

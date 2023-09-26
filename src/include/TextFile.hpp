@@ -48,13 +48,13 @@ public: // functions
 		bool bTrailingLinebreak) const noexcept;
 	rlText_Count getLineCount() const noexcept { return m_oLines.size(); }
 	const std::u8string &getLine(rlText_Count iLine) const noexcept { return m_oLines[iLine]; }
-	rlText_Count setLine(rlText_Count iLine, const char *szLine, bool bReplace) noexcept;
+	rlText_Count setLine(rlText_Count iLine, const char8_t *szLine, bool bReplace) noexcept;
 	bool deleteLine(rlText_Count iLine) noexcept;
 	rlText_Linebreak getLinebreakType() const noexcept { return m_iLinebreakType; }
 	bool setLinebreakType(rlText_Linebreak iLinebreakType) noexcept;
 	rlText_Count getTotalLength() const noexcept;
 	std::u8string getAsText(bool bTrailingLinebreak = false) const noexcept;
-	bool setText(const char *sz) noexcept;
+	bool setText(const RLTEXT_UTF8CHAR *sz) noexcept;
 	void clear() noexcept { m_oLines.clear(); }
 
 

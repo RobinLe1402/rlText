@@ -6,9 +6,9 @@
 
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
-	const char8_t     *szUTF8,
-	      char16_t    *pBuf,
-	      rlText_Count iBufSize
+	const RLTEXT_UTF8CHAR  *szUTF8,
+		  RLTEXT_UTF16CHAR *pBuf,
+	      rlText_Count      iBufSize
 )
 {
 	char32_t        ch         = 0;
@@ -82,9 +82,9 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF8toUTF16(
 }
 
 RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
-	const char16_t    *szUTF16,
-		  char8_t     *pBuf,
-		  rlText_Count iBufSize
+	const RLTEXT_UTF16CHAR *szUTF16,
+		  RLTEXT_UTF8CHAR  *pBuf,
+		  rlText_Count      iBufSize
 )
 {
 	char32_t        ch         = 0;
@@ -98,7 +98,7 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
 		iResult = 1; // terminating zero
 		while (*szUTF16)
 		{
-			iReadWords = rlText_DecodeUTF16(szUTF16, &ch);
+			iReadWords = rlText_DecodeUTF16(reinterpret_cast<const char16_t *>(szUTF16), &ch);
 			if (!iReadWords)
 			{
 				// decoding failed --> cancel, return 0
@@ -125,7 +125,7 @@ RLTEXT_API rlText_Count RLTEXT_LIB rlText_UTF16toUTF8(
 		iResult = 1;
 		while (*szUTF16 && iResult < iBufSize)
 		{
-			iReadWords = rlText_DecodeUTF16(szUTF16, &ch);
+			iReadWords = rlText_DecodeUTF16(reinterpret_cast<const char16_t *>(szUTF16), &ch);
 			if (!iReadWords)
 			{
 				// decoding failed --> cancel, return 0

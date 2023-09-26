@@ -14,7 +14,7 @@ std::wstring UTF8toUTF16(const char8_t *szUTF8) noexcept
 		return sResult;
 
 	sResult.resize(iRequiredBufSize - 1);
-	rlText_UTF8toUTF16(szUTF8, reinterpret_cast<char16_t *>(sResult.data()), iRequiredBufSize);
+	rlText_UTF8toUTF16(szUTF8, sResult.data(), iRequiredBufSize);
 
 	return sResult;
 }
