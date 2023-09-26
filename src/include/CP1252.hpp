@@ -15,10 +15,10 @@
 /// </summary>
 constexpr char32_t oCharsCP1252[] =
 {
-	L'\u20AC', L'\uFFFD', L'\u201A', L'\u0192', L'\u201E', L'\u2026', L'\u2020', L'\u2021',
-	L'\u02C6', L'\u2030', L'\u0160', L'\u2039', L'\u0152', L'\uFFFD', L'\u017D', L'\uFFFD',
-	L'\uFFFD', L'\u2018', L'\u2019', L'\u201C', L'\u201D', L'\u2022', L'\u2013', L'\u2014',
-	L'\u02DC', L'\u2122', L'\u0161', L'\u203A', L'\u0153', L'\uFFFD', L'\u017E', L'\u0178'
+	U'\u20AC', U'\uFFFD', U'\u201A', U'\u0192', U'\u201E', U'\u2026', U'\u2020', U'\u2021',
+	U'\u02C6', U'\u2030', U'\u0160', U'\u2039', U'\u0152', U'\uFFFD', U'\u017D', U'\uFFFD',
+	U'\uFFFD', U'\u2018', U'\u2019', U'\u201C', U'\u201D', U'\u2022', U'\u2013', U'\u2014',
+	U'\u02DC', U'\u2122', U'\u0161', U'\u203A', U'\u0153', U'\uFFFD', U'\u017E', U'\u0178'
 };
 
 

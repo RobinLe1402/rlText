@@ -139,7 +139,7 @@ RLTEXT_API rlText_Bool RLTEXT_LIB rlText_EncodeUTF16(
 	{
 		// set to U+FFFD
 		pDest->count = 1;
-		pDest->ch[0] = char16_t(L'\xFFFD');
+		pDest->ch[0] = u'\uFFFD';
 	}
 	return bResult;
 }
