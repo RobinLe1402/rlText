@@ -274,6 +274,7 @@ int main(int argc, char* argv[])
 
 
 	free(szUTF8_converted);
+	free(szUTF16_converted);
 
 
 
