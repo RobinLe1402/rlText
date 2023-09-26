@@ -24,7 +24,7 @@ namespace rlText
 	/// If the function fails, the value is the replacement character <c>U+FFFD</c>.
 	/// </param>
 	/// <returns>Did the function succeed?</returns>
-	bool DecodeCP1252(
+	inline bool DecodeCP1252(
 		char      cEncoded,
 		char32_t &cDecoded
 	) noexcept
@@ -49,7 +49,7 @@ namespace rlText
 	/// <para/>
 	/// If the function fails, it returns zero.
 	/// </returns>
-	unsigned DecodeUTF8(
+	inline unsigned DecodeUTF8(
 		const RLTEXT_UTF8CHAR *pEncoded,
 		      char32_t    &cDecoded
 	) noexcept
@@ -74,7 +74,7 @@ namespace rlText
 	/// <para/>
 	/// If the function fails, it returns zero.
 	/// </returns>
-	unsigned DecodeUTF16(
+	inline unsigned DecodeUTF16(
 		const char16_t *pEncoded,
 		      char32_t &cDecoded
 	) noexcept

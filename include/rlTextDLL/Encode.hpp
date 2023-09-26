@@ -23,7 +23,7 @@ namespace rlText
 	/// If the function fails, the value is the replacement character <c>'?'</c>.
 	/// </param>
 	/// <returns>Did the function succeed?</returns>
-	bool EncodeASCII(char32_t ch, char &cDest) noexcept
+	inline bool EncodeASCII(char32_t ch, char &cDest) noexcept
 	{
 		return rlText_EncodeASCII(ch, &cDest);
 	}
@@ -41,7 +41,7 @@ namespace rlText
 	/// If the function succeeds, it returns nonzero.<para/>
 	/// If the function fails, it returns zero.
 	/// </returns>
-	bool EncodeCP1252(char32_t ch, char &cDest) noexcept
+	inline bool EncodeCP1252(char32_t ch, char &cDest) noexcept
 	{
 		return rlText_EncodeCP1252(ch, &cDest);
 	}
@@ -57,12 +57,12 @@ namespace rlText
 	/// The unused entries of the <c>ch</c> array will always be set to zero.
 	/// </param>
 	/// <returns>Did the function succeed?</returns>
-	bool EncodeUTF8(char32_t ch, rlText_UTF8Codepoint &oDest) noexcept
+	inline bool EncodeUTF8(char32_t ch, rlText_UTF8Codepoint &oDest) noexcept
 	{
 		return rlText_EncodeUTF8(ch, &oDest);
 	}
 
-	bool EncodeUTF16(char32_t ch, rlText_UTF16Codepoint &oDest) noexcept
+	inline bool EncodeUTF16(char32_t ch, rlText_UTF16Codepoint &oDest) noexcept
 	{
 		return rlText_EncodeUTF16(ch, &oDest);
 	}

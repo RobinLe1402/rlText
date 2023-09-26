@@ -34,7 +34,7 @@ namespace rlText
 	/// <returns>
 	/// Did the function succeed?
 	/// </returns>
-	bool GetFileInfo(
+	inline bool GetFileInfo(
 		const RLTEXT_UTF8CHAR *szFilepath,
 		Encoding              *pEncoding,
 		FileStatisticsStruct  *pStatistics,
