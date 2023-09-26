@@ -38,9 +38,9 @@ int test(char32_t ch, const char *szCharDescr)
 {
 	char32_t cDecoded;
 
-	char                  c;
-	rlText_UTF8Codepoint  u8;
-	rlText_UTF16Codepoint u16;
+	char                   c;
+	rlText::UTF8Codepoint  u8;
+	rlText::UTF16Codepoint u16;
 	int iResult = 1;
 	char szUnicodeHex[9];
 
@@ -50,7 +50,7 @@ int test(char32_t ch, const char *szCharDescr)
 	printf("Testing U+%s (%s)...\n", szUnicodeHex, szCharDescr);
 
 	printf("  CP1252: ");
-	if (!rlText_EncodeCP1252(ch, &c))
+	if (!rlText::EncodeCP1252(ch, c))
 	{
 		if (ch <= 0xFF && (ch < 0x80 || ch >= 0xA0))
 		{
@@ -66,7 +66,7 @@ int test(char32_t ch, const char *szCharDescr)
 		printf("          ");
 		PadWithSpaces(PrintHex_8(c));
 
-		if (!rlText_DecodeCP1252(c, &cDecoded) || cDecoded != ch)
+		if (!rlText::DecodeCP1252(c, cDecoded) || cDecoded != ch)
 		{
 			iResult = 0;
 			printf("(decoding failed)\n");
@@ -76,7 +76,7 @@ int test(char32_t ch, const char *szCharDescr)
 	}
 
 	printf("  UTF-8:  ");
-	if (!rlText_EncodeUTF8(ch, &u8))
+	if (!rlText::EncodeUTF8(ch, u8))
 	{
 		iResult = 0;
 		printf("failed.\n");
@@ -107,7 +107,7 @@ int test(char32_t ch, const char *szCharDescr)
 	}
 
 	printf("  UTF-16: ");
-	if (!rlText_EncodeUTF16(ch, &u16))
+	if (!rlText::EncodeUTF16(ch, u16))
 	{
 		iResult = 0;
 		printf("failed.\n");
@@ -127,7 +127,7 @@ int test(char32_t ch, const char *szCharDescr)
 		memset(u16Buffered, 0, sizeof(u16Buffered));
 		memcpy_s(u16Buffered, sizeof(u16Buffered, u16), u16.ch, sizeof(u16.ch));
 
-		if (!rlText_DecodeUTF16(u16Buffered, &cDecoded) || cDecoded != ch)
+		if (!rlText::DecodeUTF16(u16Buffered, cDecoded) || cDecoded != ch)
 		{
 			iResult = 0;
 			printf("(decoding failed)\n");
@@ -144,7 +144,7 @@ int test(char32_t ch, const char *szCharDescr)
 int testfile(const char8_t *szFilepath)
 {
 	uint8_t iEncoding;
-	rlText_FileStatisticsStruct oStatistics;
+	rlText::FileStatisticsStruct oStatistics;
 	if (!rlText::GetFileInfo(szFilepath, &iEncoding, &oStatistics, 0))
 	{
 		printf("  GetFileInfo failed on \"%s\".\n", (const char *)szFilepath);
@@ -248,25 +248,10 @@ int main(int argc, char* argv[])
 
 	const wchar_t szUTF16[] = L"TEST\n\xC4\xD6\xDC \U0001F600";
 
-	const rlText_Count iReqSize_UTF8 = rlText_UTF16toUTF8(szUTF16, 0, 0);
-	auto up_szUTF8_converted = std::make_unique<char8_t[]>(iReqSize_UTF8);
-	auto szUTF8_converted = up_szUTF8_converted.get();
+	const auto sUTF8_converted  = rlText::UTF16toUTF8(szUTF16);
+	const auto sUTF16_converted = rlText::UTF8toUTF16(sUTF8_converted.c_str());
 
-	if (iReqSize_UTF8 != rlText_UTF16toUTF8(szUTF16, szUTF8_converted, iReqSize_UTF8))
-		printf("  WARNING: UTF16toUTF8 wrote less data than it previously returned as required.\n");
-
-
-	const rlText_Count iReqSize_UTF16 = rlText_UTF8toUTF16(szUTF8_converted, 0, 0);
-	auto up_szUTF16_converted = std::make_unique<wchar_t[]>(iReqSize_UTF16);
-	auto szUTF16_converted = up_szUTF16_converted.get();
-
-	if (iReqSize_UTF16 * sizeof(char16_t) != sizeof(szUTF16))
-		printf("  WARNING: "
-			"UTF8toUTF16 returned a required size not equal to the original string.\n");
-	if (iReqSize_UTF16 != rlText_UTF8toUTF16(szUTF8_converted, szUTF16_converted, iReqSize_UTF16))
-		printf("  WARNING: UTF8toUTF16 wrote less data than it previously returned as required.\n");
-
-	if (wcscmp(szUTF16, szUTF16_converted) != 0)
+	if (sUTF16_converted != szUTF16)
 	{
 		printf("  ERROR: The original UTF-16 string and the one recreated via "
 			"UTF-16 --> UTF-8 --> UTF-16 are not identical!\n");
