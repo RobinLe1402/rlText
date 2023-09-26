@@ -15,6 +15,12 @@ The encoding used internally and for interfacing with applications is UTF-8
 `include/rlTextDLL/Windows.h`).
 
 
+## C++ Wrappers
+The `include` directory also contains C++ wrappers for the C headers.
+
+`.h` files are the original C headers, `.hpp` are the C++ wrapper headers.
+
+
 
 ## Enviroment
 
