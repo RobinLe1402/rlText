@@ -20,8 +20,7 @@ namespace rlText
 #if __cplusplus >= 202002L // C++20
 #define RLTEXT_UTF8STRING std::u8string
 #else
-#define RL_UTF8CHAR   char
-#define RL_UTF8STRING std::string
+#define RLTEXT_UTF8STRING std::string
 #endif
 
 #ifdef _WIN32
