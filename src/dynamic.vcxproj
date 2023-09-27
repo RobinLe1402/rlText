@@ -75,29 +75,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\rlTextDLL\Decode.h" />
-    <ClInclude Include="include\rlTextDLL\Encode.h" />
-    <ClInclude Include="include\rlTextDLL\ExportSpecs.h" />
-    <ClInclude Include="include\rlTextDLL\FileIO.h" />
-    <ClInclude Include="include\rlTextDLL\Types.h" />
-    <ClInclude Include="include\rlTextDLL\Unicode.h" />
-    <ClInclude Include="include\rlTextDLL\Windows.h" />
-    <ClInclude Include="src\include\CP1252.hpp" />
-    <ClInclude Include="src\include\HostEndian.hpp" />
-    <ClInclude Include="src\include\PrivateTools.hpp" />
-    <ClInclude Include="src\include\TextFile.hpp" />
+    <ClInclude Include="..\include\rlTextDLL\Decode.h" />
+    <ClInclude Include="..\include\rlTextDLL\Encode.h" />
+    <ClInclude Include="..\include\rlTextDLL\ExportSpecs.h" />
+    <ClInclude Include="..\include\rlTextDLL\FileIO.h" />
+    <ClInclude Include="..\include\rlTextDLL\Types.h" />
+    <ClInclude Include="..\include\rlTextDLL\Unicode.h" />
+    <ClInclude Include="..\include\rlTextDLL\Windows.h" />
+    <ClInclude Include="include\CP1252.hpp" />
+    <ClInclude Include="include\HostEndian.hpp" />
+    <ClInclude Include="include\PrivateTools.hpp" />
+    <ClInclude Include="include\TextFile.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Decode.cpp" />
-    <ClCompile Include="src\Encode.cpp" />
-    <ClCompile Include="src\FileIO.cpp" />
-    <ClCompile Include="src\PrivateTools.cpp" />
-    <ClCompile Include="src\TextFile.cpp" />
-    <ClCompile Include="src\Unicode.cpp" />
-    <ClCompile Include="src\Windows.cpp" />
+    <ClCompile Include="Decode.cpp" />
+    <ClCompile Include="Encode.cpp" />
+    <ClCompile Include="FileIO.cpp" />
+    <ClCompile Include="PrivateTools.cpp" />
+    <ClCompile Include="TextFile.cpp" />
+    <ClCompile Include="Unicode.cpp" />
+    <ClCompile Include="Windows.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\resource.rc" />
+    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

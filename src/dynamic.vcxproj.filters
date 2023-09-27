@@ -18,65 +18,65 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\rlTextDLL\Types.h">
+    <ClInclude Include="..\include\rlTextDLL\Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rlTextDLL\ExportSpecs.h">
+    <ClInclude Include="..\include\rlTextDLL\ExportSpecs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rlTextDLL\Encode.h">
+    <ClInclude Include="..\include\rlTextDLL\Encode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rlTextDLL\Unicode.h">
+    <ClInclude Include="..\include\rlTextDLL\Unicode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\CP1252.hpp">
+    <ClInclude Include="..\include\CP1252.hpp">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
-    <ClInclude Include="include\rlTextDLL\Decode.h">
+    <ClInclude Include="..\include\rlTextDLL\Decode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\rlTextDLL\FileIO.h">
+    <ClInclude Include="..\include\rlTextDLL\FileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\HostEndian.hpp">
+    <ClInclude Include="..\include\HostEndian.hpp">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\PrivateTools.hpp">
+    <ClInclude Include="..\include\PrivateTools.hpp">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\TextFile.hpp">
+    <ClInclude Include="..\include\TextFile.hpp">
       <Filter>Header Files\Private</Filter>
     </ClInclude>
-    <ClInclude Include="include\rlTextDLL\Windows.h">
+    <ClInclude Include="..\include\rlTextDLL\Windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Encode.cpp">
+    <ClCompile Include="Encode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Unicode.cpp">
+    <ClCompile Include="Unicode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Decode.cpp">
+    <ClCompile Include="Decode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileIO.cpp">
+    <ClCompile Include="FileIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Windows.cpp">
+    <ClCompile Include="Windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TextFile.cpp">
+    <ClCompile Include="TextFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\PrivateTools.cpp">
+    <ClCompile Include="PrivateTools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\resource.rc">
+    <ResourceCompile Include="resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

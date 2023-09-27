@@ -76,7 +76,7 @@
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\rlText.vcxproj">
+    <ProjectReference Include="..\src\dynamic.vcxproj">
       <Project>{0e0dc5ae-ea83-44d3-add9-ae00d2c31268}</Project>
     </ProjectReference>
   </ItemGroup>
