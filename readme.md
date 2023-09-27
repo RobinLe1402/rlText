@@ -1,5 +1,5 @@
 # The rlText dynamic library
-<img src="/res/badges/utf8.svg" width="50px"/>
+<img src="/res/badges/utf8.svg" title="The code in this repo uses UTF-8 strings" width="50px"/>
 
 This repo contains a dynamic version of the library `rlText`, it provides text encoding and decoding
 functionality for the following text encodings:
