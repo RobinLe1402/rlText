@@ -6,16 +6,21 @@
     <_PropertySheetDisplayName>rlDynamicLibTest</_PropertySheetDisplayName>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>$(SolutionName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(RobinLeApps)\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(RobinLeApps)\lib</AdditionalLibraryDirectories>
+    </Lib>
     <CustomBuildStep />
     <CustomBuildStep />
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)lib\$(Configuration)\*.dll" "$(OutDir)" /D /I /Y</Command>
+      <Command>copy "$(SolutionDir)lib\$(Configuration)\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copying DLLs...</Message>
