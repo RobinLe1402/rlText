@@ -15,7 +15,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Lib>
-      <AdditionalLibraryDirectories>$(RobinLeApps)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(RobinLeApps)\lib;$(RobinLeApps)\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup />
