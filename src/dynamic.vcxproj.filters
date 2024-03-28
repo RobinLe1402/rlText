@@ -30,26 +30,26 @@
     <ClInclude Include="..\include\rlTextDLL\Unicode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\CP1252.hpp">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\rlTextDLL\Decode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\rlTextDLL\FileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\HostEndian.hpp">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\PrivateTools.hpp">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\TextFile.hpp">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\rlTextDLL\Windows.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextFile.hpp">
+      <Filter>Header Files\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CP1252.hpp">
+      <Filter>Header Files\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HostEndian.hpp">
+      <Filter>Header Files\Private</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PrivateTools.hpp">
+      <Filter>Header Files\Private</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
