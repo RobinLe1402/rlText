@@ -9,7 +9,6 @@
 #include <stdint.h>
 
 #ifndef __cplusplus  // C
-#include <stdbool.h> // bool
 #include <uchar.h>   // char16_t, char32_t
 #endif
 
